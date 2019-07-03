@@ -1,0 +1,1187 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="demoanalyzer" Class="DemoAnalyzerDataClassesDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=localhost;Initial Catalog=demoanalyzer;Integrated Security=True" SettingsObjectName="MentorMonitorer.Properties.Settings" SettingsPropertyName="demoanalyzerConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.[_FireNadePolygonPoint]" Member="_FireNadePolygonPoint">
+    <Type Name="_FireNadePolygonPoint">
+      <Column Name="ZoneId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="PointId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Map" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="XIngame" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="YIngame" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="XPixel" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="YPixel" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="_FireNadeZone__FireNadePolygonPoint" Member="_FireNadeZone" ThisKey="ZoneId" OtherKey="ZoneId" Type="_FireNadeZone" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.WeaponReload" Member="WeaponReload">
+    <Type Name="WeaponReload">
+      <Column Name="MatchId" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="WeaponReloadId" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Round" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="Time" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Tick" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerPosX" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerPosY" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerPosZ" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerViewX" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerViewY" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="IsCT" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="Weapon" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="AmmoBefore" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="AmmoAfter" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="ReserveAmmo" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Association Name="MatchStats_WeaponReload" Member="MatchStats" ThisKey="MatchId" OtherKey="MatchId" Type="MatchStats" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="PlayerMatchStats_WeaponReload" Member="PlayerMatchStats" ThisKey="MatchId,PlayerId" OtherKey="MatchId,SteamId" Type="PlayerMatchStats" IsForeignKey="true" />
+      <Association Name="PlayerRoundStats_WeaponReload" Member="PlayerRoundStats" ThisKey="MatchId,Round,PlayerId" OtherKey="MatchId,Round,PlayerId" Type="PlayerRoundStats" IsForeignKey="true" />
+      <Association Name="RoundStats_WeaponReload" Member="RoundStats" ThisKey="MatchId,Round" OtherKey="MatchId,Round" Type="RoundStats" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.[_FireNadeZone]" Member="_FireNadeZone">
+    <Type Name="_FireNadeZone">
+      <Column Name="ZoneId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Map" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Team" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
+      <Column Name="ZMin" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="ZMax" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="CenterXIngame" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="CenterYIngame" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="CenterXPixel" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CenterYPixel" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ParentZoneId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="_FireNadeZone__FireNadePolygonPoint" Member="_FireNadePolygonPoint" ThisKey="ZoneId" OtherKey="ZoneId" Type="_FireNadePolygonPoint" />
+      <Association Name="_FireNadeZone__FireNadeZone" Member="_FireNadeZone2" ThisKey="ZoneId" OtherKey="ParentZoneId" Type="_FireNadeZone" />
+      <Association Name="_FireNadeZone__FireNadeZone" Member="_FireNadeZone1" ThisKey="ParentZoneId" OtherKey="ZoneId" Type="_FireNadeZone" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.[_FlashPolygonPoint]" Member="_FlashPolygonPoint">
+    <Type Name="_FlashPolygonPoint">
+      <Column Name="ZoneId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="PointId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Map" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="XIngame" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="YIngame" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="XPixel" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="YPixel" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="_FlashZone__FlashPolygonPoint" Member="_FlashZone" ThisKey="ZoneId" OtherKey="ZoneId" Type="_FlashZone" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.[_FlashZone]" Member="_FlashZone">
+    <Type Name="_FlashZone">
+      <Column Name="ZoneId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Map" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Team" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
+      <Column Name="ZMin" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="ZMax" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="CenterXIngame" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="CenterYIngame" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="CenterXPixel" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CenterYPixel" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ParentZoneId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="_FlashZone__FlashPolygonPoint" Member="_FlashPolygonPoint" ThisKey="ZoneId" OtherKey="ZoneId" Type="_FlashPolygonPoint" />
+      <Association Name="_FlashZone__FlashZone" Member="_FlashZone2" ThisKey="ZoneId" OtherKey="ParentZoneId" Type="_FlashZone" />
+      <Association Name="_FlashZone__FlashZone" Member="_FlashZone1" ThisKey="ParentZoneId" OtherKey="ZoneId" Type="_FlashZone" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.[_HEPolygonPoint]" Member="_HEPolygonPoint">
+    <Type Name="_HEPolygonPoint">
+      <Column Name="ZoneId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="PointId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Map" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="XIngame" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="YIngame" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="XPixel" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="YPixel" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="_HEZone__HEPolygonPoint" Member="_HEZone" ThisKey="ZoneId" OtherKey="ZoneId" Type="_HEZone" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.[_HEZone]" Member="_HEZone">
+    <Type Name="_HEZone">
+      <Column Name="ZoneId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Map" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Team" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
+      <Column Name="ZMin" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="ZMax" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="CenterXIngame" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="CenterYIngame" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="CenterXPixel" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CenterYPixel" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ParentZoneId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="_HEZone__HEPolygonPoint" Member="_HEPolygonPoint" ThisKey="ZoneId" OtherKey="ZoneId" Type="_HEPolygonPoint" />
+      <Association Name="_HEZone__HEZone" Member="_HEZone2" ThisKey="ZoneId" OtherKey="ParentZoneId" Type="_HEZone" />
+      <Association Name="_HEZone__HEZone" Member="_HEZone1" ThisKey="ParentZoneId" OtherKey="ZoneId" Type="_HEZone" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.[_MapSettings]" Member="_MapSettings">
+    <Type Name="_MapSettings">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Map" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="ConversionOffsetX" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="ConversionOffsetY" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="ConversionScaleX" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="ConversionScaleY" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="CropXMin" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="CropYMin" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="CropXMax" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="CropYMax" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.[_PlayerMatchSmokeStats]" Member="_PlayerMatchSmokeStats">
+    <Type Name="_PlayerMatchSmokeStats">
+      <Column Name="MatchId" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="PlayerId" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="[_Category]" Member="_Category" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="[_Attempts]" Member="_Attempts" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
+      <Column Name="[_Misses]" Member="_Misses" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
+      <Column Name="[_Insides]" Member="_Insides" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
+      <Column Name="[_Gapfrees]" Member="_Gapfrees" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
+      <Association Name="MatchStats__PlayerMatchSmokeStats" Member="MatchStats" ThisKey="MatchId" OtherKey="MatchId" Type="MatchStats" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="PlayerMatchStats__PlayerMatchSmokeStats" Member="PlayerMatchStats" ThisKey="MatchId,PlayerId" OtherKey="MatchId,SteamId" Type="PlayerMatchStats" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.[_PositionOpposingZones]" Member="_PositionOpposingZones">
+    <Type Name="_PositionOpposingZones">
+      <Column Name="TZoneId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="CtZoneId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Map" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.[_PositionPolygonPoint]" Member="_PositionPolygonPoint">
+    <Type Name="_PositionPolygonPoint">
+      <Column Name="ZoneId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="PointId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Map" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="XIngame" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="YIngame" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="XPixel" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="YPixel" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="_PositionZone__PositionPolygonPoint" Member="_PositionZone" ThisKey="ZoneId" OtherKey="ZoneId" Type="_PositionZone" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.[_PositionZone]" Member="_PositionZone">
+    <Type Name="_PositionZone">
+      <Column Name="ZoneId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Map" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Team" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="VideoUrl" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="ZMin" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="ZMax" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="CenterXIngame" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="CenterYIngame" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="CenterXPixel" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CenterYPixel" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ParentZoneId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="_PositionZone__PositionPolygonPoint" Member="_PositionPolygonPoint" ThisKey="ZoneId" OtherKey="ZoneId" Type="_PositionPolygonPoint" />
+      <Association Name="_PositionZone__PositionZone" Member="_PositionZone2" ThisKey="ZoneId" OtherKey="ParentZoneId" Type="_PositionZone" />
+      <Association Name="_PositionZone__PositionZone" Member="_PositionZone1" ThisKey="ParentZoneId" OtherKey="ZoneId" Type="_PositionZone" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.[_Refrag]" Member="_Refrag">
+    <Type Name="_Refrag">
+      <Column Name="MatchId" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="KillId" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="RefraggedKillId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Association Name="Kills__Refrag" Member="Kills" ThisKey="MatchId,KillId" OtherKey="MatchId,KillId" Type="Kills" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="Kills__Refrag1" Member="Kills1" ThisKey="MatchId,RefraggedKillId" OtherKey="MatchId,KillId" Type="Kills" IsForeignKey="true" />
+      <Association Name="MatchStats__Refrag" Member="MatchStats" ThisKey="MatchId" OtherKey="MatchId" Type="MatchStats" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.[_SinglePath]" Member="_SinglePath">
+    <Type Name="_SinglePath">
+      <Column Name="PathId" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Map" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="SuperOrdinateId" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.[_SmokeCategory]" Member="_SmokeCategory">
+    <Type Name="_SmokeCategory">
+      <Column Name="CategoryId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Map" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="TargetId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ThrowType" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
+      <Column Name="Setpos" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="PlayerPosXPixel" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerPosYPixel" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerPosX" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerPosY" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerPosZ" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerViewX" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerViewY" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="GrenadePosX" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="GrenadePosY" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="GrenadePosZ" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerPosXMin" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerPosYMin" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerPosZMin" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerViewXMin" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerViewYMin" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerPosXMax" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerPosYMax" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerPosZMax" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerViewXMax" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerViewYMax" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ViewXContainsPole" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="_SmokeTarget__SmokeCategory" Member="_SmokeTarget" ThisKey="TargetId" OtherKey="TargetId" Type="_SmokeTarget" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.[_SmokeTarget]" Member="_SmokeTarget">
+    <Type Name="_SmokeTarget">
+      <Column Name="TargetId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Map" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="GrenadePosXPixel" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="GrenadePosYPixel" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="GrenadePosX" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="GrenadePosY" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="GrenadePosZ" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="GrenadePosXMin" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="GrenadePosYMin" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="GrenadePosZMin" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="GrenadePosXMax" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="GrenadePosYMax" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="GrenadePosZMax" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="_SmokeTarget__SmokeCategory" Member="_SmokeCategory" ThisKey="TargetId" OtherKey="TargetId" Type="_SmokeCategory" />
+    </Type>
+  </Table>
+  <Table Name="dbo.[_StutterStep]" Member="_StutterStep">
+    <Type Name="_StutterStep">
+      <Column Name="MatchId" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="StutterStepId" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="PlayerId" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Round" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="WeaponFiredId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="StutterStartTime" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Under34Time" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Lag" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Association Name="MatchStats__StutterStep" Member="MatchStats" ThisKey="MatchId" OtherKey="MatchId" Type="MatchStats" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="PlayerMatchStats__StutterStep" Member="PlayerMatchStats" ThisKey="MatchId,PlayerId" OtherKey="MatchId,SteamId" Type="PlayerMatchStats" IsForeignKey="true" />
+      <Association Name="RoundStats__StutterStep" Member="RoundStats" ThisKey="MatchId,Round" OtherKey="MatchId,Round" Type="RoundStats" IsForeignKey="true" />
+      <Association Name="WeaponFired__StutterStep" Member="WeaponFired" ThisKey="MatchId,WeaponFiredId" OtherKey="MatchId,WeaponFiredId" Type="WeaponFired" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.[_TeamStrategy]" Member="_TeamStrategy">
+    <Type Name="_TeamStrategy">
+      <Column Name="StrategyId" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Map" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="SuperOrdinateId" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.BombDefused" Member="BombDefused">
+    <Type Name="BombDefused">
+      <Column Name="MatchId" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Round" Type="System.Int16" DbType="SmallInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Time" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Tick" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="BombTimeLeft" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="MatchStats_BombDefused" Member="MatchStats" ThisKey="MatchId" OtherKey="MatchId" Type="MatchStats" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="PlayerMatchStats_BombDefused" Member="PlayerMatchStats" ThisKey="MatchId,PlayerId" OtherKey="MatchId,SteamId" Type="PlayerMatchStats" IsForeignKey="true" />
+      <Association Name="PlayerRoundStats_BombDefused" Member="PlayerRoundStats" ThisKey="MatchId,Round,PlayerId" OtherKey="MatchId,Round,PlayerId" Type="PlayerRoundStats" IsForeignKey="true" />
+      <Association Name="RoundStats_BombDefused" Member="RoundStats" ThisKey="MatchId,Round" OtherKey="MatchId,Round" Type="RoundStats" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.BombExplosion" Member="BombExplosion">
+    <Type Name="BombExplosion">
+      <Column Name="MatchId" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Round" Type="System.Int16" DbType="SmallInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Time" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Tick" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="MatchStats_BombExplosion" Member="MatchStats" ThisKey="MatchId" OtherKey="MatchId" Type="MatchStats" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="RoundStats_BombExplosion" Member="RoundStats" ThisKey="MatchId,Round" OtherKey="MatchId,Round" Type="RoundStats" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.BombPlant" Member="BombPlant">
+    <Type Name="BombPlant">
+      <Column Name="MatchId" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Round" Type="System.Int16" DbType="SmallInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Time" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Tick" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="Site" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
+      <Column Name="PosX" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="PosY" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="PosZ" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Association Name="MatchStats_BombPlant" Member="MatchStats" ThisKey="MatchId" OtherKey="MatchId" Type="MatchStats" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="PlayerMatchStats_BombPlant" Member="PlayerMatchStats" ThisKey="MatchId,PlayerId" OtherKey="MatchId,SteamId" Type="PlayerMatchStats" IsForeignKey="true" />
+      <Association Name="PlayerRoundStats_BombPlant" Member="PlayerRoundStats" ThisKey="MatchId,Round,PlayerId" OtherKey="MatchId,Round,PlayerId" Type="PlayerRoundStats" IsForeignKey="true" />
+      <Association Name="RoundStats_BombPlant" Member="RoundStats" ThisKey="MatchId,Round" OtherKey="MatchId,Round" Type="RoundStats" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.BotTakeOver" Member="BotTakeOver">
+    <Type Name="BotTakeOver">
+      <Column Name="MatchId" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="BotTakeOverId" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="PlayerId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="BotId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="Round" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="Time" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="MatchStats_BotTakeOver" Member="MatchStats" ThisKey="MatchId" OtherKey="MatchId" Type="MatchStats" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="PlayerMatchStats_BotTakeOver" Member="PlayerMatchStats" ThisKey="MatchId,PlayerId" OtherKey="MatchId,SteamId" Type="PlayerMatchStats" IsForeignKey="true" />
+      <Association Name="PlayerRoundStats_BotTakeOver" Member="PlayerRoundStats" ThisKey="MatchId,Round,PlayerId" OtherKey="MatchId,Round,PlayerId" Type="PlayerRoundStats" IsForeignKey="true" />
+      <Association Name="RoundStats_BotTakeOver" Member="RoundStats" ThisKey="MatchId,Round" OtherKey="MatchId,Round" Type="RoundStats" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ConnectDisconnect" Member="ConnectDisconnect">
+    <Type Name="ConnectDisconnect">
+      <Column Name="MatchId" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ConnectDisconnectId" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Round" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="Time" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Connect" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="MatchStats_ConnectDisconnect" Member="MatchStats" ThisKey="MatchId" OtherKey="MatchId" Type="MatchStats" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="PlayerMatchStats_ConnectDisconnect" Member="PlayerMatchStats" ThisKey="MatchId,PlayerId" OtherKey="MatchId,SteamId" Type="PlayerMatchStats" IsForeignKey="true" />
+      <Association Name="RoundStats_ConnectDisconnect" Member="RoundStats" ThisKey="MatchId,Round" OtherKey="MatchId,Round" Type="RoundStats" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Damage" Member="Damage">
+    <Type Name="Damage">
+      <Column Name="MatchId" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="DamageId" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Round" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="Time" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Tick" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerPosX" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerPosY" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerPosZ" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="IsCT" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="VictimId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="VictimPosX" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="VictimPosY" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="VictimPosZ" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="AmountHealth" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="AmountHealthPotential" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="AmountArmor" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="HitGroup" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
+      <Column Name="Weapon" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="Fatal" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="TeamAttack" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="WeaponFiredId" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="HEGrenadeId" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="FireNadeId" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="DecoyId" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="PlayerZoneByTeam" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="VictimZoneByTeam" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Damage_Kills" Member="Kills" ThisKey="MatchId,DamageId" OtherKey="MatchId,DamageId" Type="Kills" />
+      <Association Name="Decoy_Damage" Member="Decoy" ThisKey="MatchId,DecoyId" OtherKey="MatchId,GrenadeId" Type="Decoy" IsForeignKey="true" />
+      <Association Name="FireNade_Damage" Member="FireNade" ThisKey="MatchId,FireNadeId" OtherKey="MatchId,GrenadeId" Type="FireNade" IsForeignKey="true" />
+      <Association Name="HE_Damage" Member="HE" ThisKey="MatchId,HEGrenadeId" OtherKey="MatchId,GrenadeId" Type="HE" IsForeignKey="true" />
+      <Association Name="MatchStats_Damage" Member="MatchStats" ThisKey="MatchId" OtherKey="MatchId" Type="MatchStats" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="PlayerMatchStats_Damage" Member="PlayerMatchStats" ThisKey="MatchId,PlayerId" OtherKey="MatchId,SteamId" Type="PlayerMatchStats" IsForeignKey="true" />
+      <Association Name="PlayerMatchStats_Damage1" Member="PlayerMatchStats1" ThisKey="MatchId,VictimId" OtherKey="MatchId,SteamId" Type="PlayerMatchStats" IsForeignKey="true" />
+      <Association Name="PlayerRoundStats_Damage" Member="PlayerRoundStats" ThisKey="MatchId,Round,PlayerId" OtherKey="MatchId,Round,PlayerId" Type="PlayerRoundStats" IsForeignKey="true" />
+      <Association Name="PlayerRoundStats_Damage1" Member="PlayerRoundStats1" ThisKey="MatchId,Round,VictimId" OtherKey="MatchId,Round,PlayerId" Type="PlayerRoundStats" IsForeignKey="true" />
+      <Association Name="RoundStats_Damage" Member="RoundStats" ThisKey="MatchId,Round" OtherKey="MatchId,Round" Type="RoundStats" IsForeignKey="true" />
+      <Association Name="WeaponFired_Damage" Member="WeaponFired" ThisKey="MatchId,WeaponFiredId" OtherKey="MatchId,WeaponFiredId" Type="WeaponFired" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Decoy" Member="Decoy">
+    <Type Name="Decoy">
+      <Column Name="MatchId" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="GrenadeId" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Round" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="Time" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Tick" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerPosX" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerPosY" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerPosZ" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerViewX" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerViewY" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="IsCT" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="GrenadePosX" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="GrenadePosY" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="GrenadePosZ" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="Trajectory" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Association Name="Decoy_Damage" Member="Damage" ThisKey="MatchId,GrenadeId" OtherKey="MatchId,DecoyId" Type="Damage" />
+      <Association Name="MatchStats_Decoy" Member="MatchStats" ThisKey="MatchId" OtherKey="MatchId" Type="MatchStats" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="PlayerMatchStats_Decoy" Member="PlayerMatchStats" ThisKey="MatchId,PlayerId" OtherKey="MatchId,SteamId" Type="PlayerMatchStats" IsForeignKey="true" />
+      <Association Name="PlayerRoundStats_Decoy" Member="PlayerRoundStats" ThisKey="MatchId,Round,PlayerId" OtherKey="MatchId,Round,PlayerId" Type="PlayerRoundStats" IsForeignKey="true" />
+      <Association Name="RoundStats_Decoy" Member="RoundStats" ThisKey="MatchId,Round" OtherKey="MatchId,Round" Type="RoundStats" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.DemoStats" Member="DemoStats">
+    <Type Name="DemoStats">
+      <Column Name="DemoId" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="MatchId" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="DemoUrl" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="DemoFileName" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="DemoFilePath" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="DemoFileHashMD5" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="MatchDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Status" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="Attempts" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="DemoAnalyzerVersion" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="PyAnalyzerVersion" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="FaceItMatchId" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Association Name="DemoStats_MatchStats" Member="MatchStats" ThisKey="DemoId" OtherKey="DemoId" Type="MatchStats" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Equipment" Member="Equipment">
+    <Type Name="Equipment">
+      <Column Name="ID" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="StartDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Source" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="Type" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="DisplayName" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="InGameName" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="WeaporArmorRatio" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="Damage" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="RangeModifier" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="CycleTime" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="Penetration" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="KillAward" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MaxPlayerSpeed" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ClipSize" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Price" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Range" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="WeaponClass" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="FullAuto" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="Bullets" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="TracerFrequency" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="FlinchVelocityModifierLarge" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="FlinchVelocityModifierSmall" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="Spread" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="InaccuracyCrouch" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="InaccuracyStand" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="InaccuracyFire" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="InaccuracyMove" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="InaccuracyJump" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="InaccuracyJumpIntial" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="InaccuracyLand" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="InaccuracyLadder" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="RecoveryTimeCrouch" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="RecoveryTimeCrouchFinal" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="RecoveryTimeStand" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="RecoveryTimeStandFinal" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="RecoilAngleVariance" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="RecoilMagnitude" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="RecoilMagnitudeVariance" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="SpreadAlt" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="InaccuracyCrouchAlt" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="InaccuracyStandAlt" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="InaccuracyFireAlt" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="InaccuracyMoveAlt" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="InaccuracyJumpAlt" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="InaccuracyLandAlt" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="InaccuracyLadderAlt" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="RecoilAngleVarianceAlt" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="RecoilMagnitudeAlt" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="RecoilMagnitudeVarianceAlt" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="MaxPlayerSpeedAlt" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="TracerFrequencyAlt" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="ZoomFov" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="ZoomFovAlt" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="CycleTimeAlt" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="CycletimeBurst" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="TimeInbetweenBurstShots" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.FireNade" Member="FireNade">
+    <Type Name="FireNade">
+      <Column Name="MatchId" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="GrenadeId" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Round" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="Time" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Tick" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerPosX" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerPosY" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerPosZ" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerViewX" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerViewY" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="IsCT" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="GrenadePosX" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="GrenadePosY" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="GrenadePosZ" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="NadeType" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
+      <Column Name="DetonationZoneByTeam" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Trajectory" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="IsMolotov" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="FireNade_Damage" Member="Damage" ThisKey="MatchId,GrenadeId" OtherKey="MatchId,FireNadeId" Type="Damage" />
+      <Association Name="MatchStats_FireNade" Member="MatchStats" ThisKey="MatchId" OtherKey="MatchId" Type="MatchStats" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="PlayerMatchStats_FireNade" Member="PlayerMatchStats" ThisKey="MatchId,PlayerId" OtherKey="MatchId,SteamId" Type="PlayerMatchStats" IsForeignKey="true" />
+      <Association Name="PlayerRoundStats_FireNade" Member="PlayerRoundStats" ThisKey="MatchId,Round,PlayerId" OtherKey="MatchId,Round,PlayerId" Type="PlayerRoundStats" IsForeignKey="true" />
+      <Association Name="RoundStats_FireNade" Member="RoundStats" ThisKey="MatchId,Round" OtherKey="MatchId,Round" Type="RoundStats" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Flash" Member="Flash">
+    <Type Name="Flash">
+      <Column Name="MatchId" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="GrenadeId" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Round" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="Time" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Tick" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerPosX" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerPosY" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerPosZ" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerViewX" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerViewY" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="IsCT" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="GrenadePosX" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="GrenadePosY" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="GrenadePosZ" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="DetonationZoneByTeam" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Trajectory" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Association Name="Flash_Flashed" Member="Flashed" ThisKey="MatchId,GrenadeId" OtherKey="MatchId,GrenadeId" Type="Flashed" />
+      <Association Name="MatchStats_Flash" Member="MatchStats" ThisKey="MatchId" OtherKey="MatchId" Type="MatchStats" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="PlayerMatchStats_Flash" Member="PlayerMatchStats" ThisKey="MatchId,PlayerId" OtherKey="MatchId,SteamId" Type="PlayerMatchStats" IsForeignKey="true" />
+      <Association Name="PlayerRoundStats_Flash" Member="PlayerRoundStats" ThisKey="MatchId,Round,PlayerId" OtherKey="MatchId,Round,PlayerId" Type="PlayerRoundStats" IsForeignKey="true" />
+      <Association Name="RoundStats_Flash" Member="RoundStats" ThisKey="MatchId,Round" OtherKey="MatchId,Round" Type="RoundStats" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.FlashBounce" Member="FlashBounce">
+    <Type Name="FlashBounce">
+      <Column Name="MatchId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="GrenadeId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="Time" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="GrenadePosX" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="GrenadePosY" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="GrenadePosZ" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Flashed" Member="Flashed">
+    <Type Name="Flashed">
+      <Column Name="MatchId" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="GrenadeId" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="VictimId" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Round" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="VictimPosX" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="VictimPosY" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="VictimPosZ" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="VictimViewX" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="VictimViewY" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="IsCT" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="TimeFlashed" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="TeamAttack" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="AssistedKillId" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="TimeUntilAssistedKill" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="AngleToCrosshair" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Flash_Flashed" Member="Flash" ThisKey="MatchId,GrenadeId" OtherKey="MatchId,GrenadeId" Type="Flash" IsForeignKey="true" />
+      <Association Name="Kills_Flashed" Member="Kills" ThisKey="MatchId,AssistedKillId" OtherKey="MatchId,KillId" Type="Kills" IsForeignKey="true" />
+      <Association Name="MatchStats_Flashed" Member="MatchStats" ThisKey="MatchId" OtherKey="MatchId" Type="MatchStats" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="PlayerMatchStats_Flashed" Member="PlayerMatchStats" ThisKey="MatchId,VictimId" OtherKey="MatchId,SteamId" Type="PlayerMatchStats" IsForeignKey="true" />
+      <Association Name="PlayerRoundStats_Flashed" Member="PlayerRoundStats" ThisKey="MatchId,Round,VictimId" OtherKey="MatchId,Round,PlayerId" Type="PlayerRoundStats" IsForeignKey="true" />
+      <Association Name="RoundStats_Flashed" Member="RoundStats" ThisKey="MatchId,Round" OtherKey="MatchId,Round" Type="RoundStats" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Friends" Member="Friends">
+    <Type Name="Friends">
+      <Column Name="SteamId" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="FriendSteamId" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="FriendsSince" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Steam" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="FaceIt" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.HE" Member="HE">
+    <Type Name="HE">
+      <Column Name="MatchId" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="GrenadeId" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Round" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="Time" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Tick" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerPosX" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerPosY" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerPosZ" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerViewX" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerViewY" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="IsCT" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="GrenadePosX" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="GrenadePosY" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="GrenadePosZ" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="DetonationZoneByTeam" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Trajectory" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Association Name="HE_Damage" Member="Damage" ThisKey="MatchId,GrenadeId" OtherKey="MatchId,HEGrenadeId" Type="Damage" />
+      <Association Name="MatchStats_HE" Member="MatchStats" ThisKey="MatchId" OtherKey="MatchId" Type="MatchStats" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="PlayerMatchStats_HE" Member="PlayerMatchStats" ThisKey="MatchId,PlayerId" OtherKey="MatchId,SteamId" Type="PlayerMatchStats" IsForeignKey="true" />
+      <Association Name="PlayerRoundStats_HE" Member="PlayerRoundStats" ThisKey="MatchId,Round,PlayerId" OtherKey="MatchId,Round,PlayerId" Type="PlayerRoundStats" IsForeignKey="true" />
+      <Association Name="RoundStats_HE" Member="RoundStats" ThisKey="MatchId,Round" OtherKey="MatchId,Round" Type="RoundStats" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.HostageDrop" Member="HostageDrop">
+    <Type Name="HostageDrop">
+      <Column Name="MatchId" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Round" Type="System.Int16" DbType="SmallInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Time" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Tick" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerId" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="PosX" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="PosY" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="PosZ" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Association Name="MatchStats_HostageDrop" Member="MatchStats" ThisKey="MatchId" OtherKey="MatchId" Type="MatchStats" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="PlayerMatchStats_HostageDrop" Member="PlayerMatchStats" ThisKey="MatchId,PlayerId" OtherKey="MatchId,SteamId" Type="PlayerMatchStats" IsForeignKey="true" />
+      <Association Name="PlayerRoundStats_HostageDrop" Member="PlayerRoundStats" ThisKey="MatchId,Round,PlayerId" OtherKey="MatchId,Round,PlayerId" Type="PlayerRoundStats" IsForeignKey="true" />
+      <Association Name="RoundStats_HostageDrop" Member="RoundStats" ThisKey="MatchId,Round" OtherKey="MatchId,Round" Type="RoundStats" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.HostagePickUp" Member="HostagePickUp">
+    <Type Name="HostagePickUp">
+      <Column Name="MatchId" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Round" Type="System.Int16" DbType="SmallInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Time" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Tick" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerId" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="PosX" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="PosY" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="PosZ" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Association Name="MatchStats_HostagePickUp" Member="MatchStats" ThisKey="MatchId" OtherKey="MatchId" Type="MatchStats" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="PlayerMatchStats_HostagePickUp" Member="PlayerMatchStats" ThisKey="MatchId,PlayerId" OtherKey="MatchId,SteamId" Type="PlayerMatchStats" IsForeignKey="true" />
+      <Association Name="PlayerRoundStats_HostagePickUp" Member="PlayerRoundStats" ThisKey="MatchId,Round,PlayerId" OtherKey="MatchId,Round,PlayerId" Type="PlayerRoundStats" IsForeignKey="true" />
+      <Association Name="RoundStats_HostagePickUp" Member="RoundStats" ThisKey="MatchId,Round" OtherKey="MatchId,Round" Type="RoundStats" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.HostageRescue" Member="HostageRescue">
+    <Type Name="HostageRescue">
+      <Column Name="MatchId" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Round" Type="System.Int16" DbType="SmallInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Time" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Tick" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerId" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="PosX" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="PosY" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="PosZ" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Association Name="MatchStats_HostageRescue" Member="MatchStats" ThisKey="MatchId" OtherKey="MatchId" Type="MatchStats" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="PlayerMatchStats_HostageRescue" Member="PlayerMatchStats" ThisKey="MatchId,PlayerId" OtherKey="MatchId,SteamId" Type="PlayerMatchStats" IsForeignKey="true" />
+      <Association Name="PlayerRoundStats_HostageRescue" Member="PlayerRoundStats" ThisKey="MatchId,Round,PlayerId" OtherKey="MatchId,Round,PlayerId" Type="PlayerRoundStats" IsForeignKey="true" />
+      <Association Name="RoundStats_HostageRescue" Member="RoundStats" ThisKey="MatchId,Round" OtherKey="MatchId,Round" Type="RoundStats" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ItemDropped" Member="ItemDropped">
+    <Type Name="ItemDropped">
+      <Column Name="MatchId" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Round" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="IsCT" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="ItemDroppedId" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ItemId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="Time" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Tick" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Equipment" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="ByDeath" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="Gift" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="ItemDropped_ItemPickedUp" Member="ItemPickedUp" ThisKey="MatchId,ItemDroppedId" OtherKey="MatchId,ItemDroppedId" Type="ItemPickedUp" />
+      <Association Name="MatchStats_ItemDropped" Member="MatchStats" ThisKey="MatchId" OtherKey="MatchId" Type="MatchStats" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="PlayerMatchStats_ItemDropped" Member="PlayerMatchStats" ThisKey="MatchId,PlayerId" OtherKey="MatchId,SteamId" Type="PlayerMatchStats" IsForeignKey="true" />
+      <Association Name="PlayerRoundStats_ItemDropped" Member="PlayerRoundStats" ThisKey="MatchId,Round,PlayerId" OtherKey="MatchId,Round,PlayerId" Type="PlayerRoundStats" IsForeignKey="true" />
+      <Association Name="RoundStats_ItemDropped" Member="RoundStats" ThisKey="MatchId,Round" OtherKey="MatchId,Round" Type="RoundStats" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ItemPickedUp" Member="ItemPickedUp">
+    <Type Name="ItemPickedUp">
+      <Column Name="MatchId" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Round" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="IsCT" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="ItemPickedUpId" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ItemId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="Time" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Tick" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Equipment" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="ItemDroppedId" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="Gift" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="Buy" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="ItemDropped_ItemPickedUp" Member="ItemDropped" ThisKey="MatchId,ItemDroppedId" OtherKey="MatchId,ItemDroppedId" Type="ItemDropped" IsForeignKey="true" />
+      <Association Name="MatchStats_ItemPickedUp" Member="MatchStats" ThisKey="MatchId" OtherKey="MatchId" Type="MatchStats" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="PlayerMatchStats_ItemPickedUp" Member="PlayerMatchStats" ThisKey="MatchId,PlayerId" OtherKey="MatchId,SteamId" Type="PlayerMatchStats" IsForeignKey="true" />
+      <Association Name="PlayerRoundStats_ItemPickedUp" Member="PlayerRoundStats" ThisKey="MatchId,Round,PlayerId" OtherKey="MatchId,Round,PlayerId" Type="PlayerRoundStats" IsForeignKey="true" />
+      <Association Name="RoundStats_ItemPickedUp" Member="RoundStats" ThisKey="MatchId,Round" OtherKey="MatchId,Round" Type="RoundStats" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ItemSaved" Member="ItemSaved">
+    <Type Name="ItemSaved">
+      <Column Name="MatchId" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Round" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="IsCT" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="ItemSavedId" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ItemId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="Equipment" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Association Name="MatchStats_ItemSaved" Member="MatchStats" ThisKey="MatchId" OtherKey="MatchId" Type="MatchStats" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="PlayerMatchStats_ItemSaved" Member="PlayerMatchStats" ThisKey="MatchId,PlayerId" OtherKey="MatchId,SteamId" Type="PlayerMatchStats" IsForeignKey="true" />
+      <Association Name="PlayerRoundStats_ItemSaved" Member="PlayerRoundStats" ThisKey="MatchId,Round,PlayerId" OtherKey="MatchId,Round,PlayerId" Type="PlayerRoundStats" IsForeignKey="true" />
+      <Association Name="RoundStats_ItemSaved" Member="RoundStats" ThisKey="MatchId,Round" OtherKey="MatchId,Round" Type="RoundStats" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Kills" Member="Kills">
+    <Type Name="Kills">
+      <Column Name="MatchId" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="KillId" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Round" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="Time" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Tick" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerPosX" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerPosY" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerPosZ" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerPrimary" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerSecondary" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="IsCT" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="VictimId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="VictimPosX" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="VictimPosY" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="VictimPosZ" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="VictimPrimary" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="VictimSecondary" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="AssistedFlash" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="AssisterId" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="AssisterPosX" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="AssisterPosY" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="AssisterPosZ" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="KillType" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
+      <Column Name="Weapon" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="TeamKill" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="DamageId" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="PlayerZoneByTeam" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="VictimZoneByTeam" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Kills__Refrag" Member="_Refrag" ThisKey="MatchId,KillId" OtherKey="MatchId,KillId" Type="_Refrag" Cardinality="One" />
+      <Association Name="Kills__Refrag1" Member="_Refrag1" ThisKey="MatchId,KillId" OtherKey="MatchId,RefraggedKillId" Type="_Refrag" />
+      <Association Name="Kills_Flashed" Member="Flashed" ThisKey="MatchId,KillId" OtherKey="MatchId,AssistedKillId" Type="Flashed" />
+      <Association Name="Damage_Kills" Member="Damage" ThisKey="MatchId,DamageId" OtherKey="MatchId,DamageId" Type="Damage" IsForeignKey="true" />
+      <Association Name="MatchStats_Kills" Member="MatchStats" ThisKey="MatchId" OtherKey="MatchId" Type="MatchStats" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="PlayerMatchStats_Kills" Member="PlayerMatchStats" ThisKey="MatchId,PlayerId" OtherKey="MatchId,SteamId" Type="PlayerMatchStats" IsForeignKey="true" />
+      <Association Name="PlayerMatchStats_Kills1" Member="PlayerMatchStats1" ThisKey="MatchId,VictimId" OtherKey="MatchId,SteamId" Type="PlayerMatchStats" IsForeignKey="true" />
+      <Association Name="PlayerRoundStats_Kills" Member="PlayerRoundStats" ThisKey="MatchId,Round,PlayerId" OtherKey="MatchId,Round,PlayerId" Type="PlayerRoundStats" IsForeignKey="true" />
+      <Association Name="PlayerRoundStats_Kills1" Member="PlayerRoundStats1" ThisKey="MatchId,Round,VictimId" OtherKey="MatchId,Round,PlayerId" Type="PlayerRoundStats" IsForeignKey="true" />
+      <Association Name="RoundStats_Kills" Member="RoundStats" ThisKey="MatchId,Round" OtherKey="MatchId,Round" Type="RoundStats" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MatchStats" Member="MatchStats">
+    <Type Name="MatchStats">
+      <Column Name="MatchId" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="DemoId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="MatchDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Map" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="WinnerTeam" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
+      <Column Name="Score1" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="Score2" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="NumRoundsT1" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="NumRoundsCT1" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="NumRoundsT2" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="NumRoundsCT2" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="BombPlants1" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="BombPlants2" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="BombExplodes1" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="BombExplodes2" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="BombDefuses1" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="BombDefuses2" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="MoneyEarned1" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MoneyEarned2" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MoneySpent1" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MoneySpent2" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="AVGRoundTime" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="RoundTimer" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="BombTimer" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="StartMoney" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="DemoTickRate" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="SourceTickRate" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="Event" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="Source" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="GameType" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
+      <Column Name="AVGRank" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="RealScore1" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="RealScore2" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Association Name="MatchStats_WeaponReload" Member="WeaponReload" ThisKey="MatchId" OtherKey="MatchId" Type="WeaponReload" />
+      <Association Name="MatchStats__PlayerMatchSmokeStats" Member="_PlayerMatchSmokeStats" ThisKey="MatchId" OtherKey="MatchId" Type="_PlayerMatchSmokeStats" />
+      <Association Name="MatchStats__Refrag" Member="_Refrag" ThisKey="MatchId" OtherKey="MatchId" Type="_Refrag" />
+      <Association Name="MatchStats__StutterStep" Member="_StutterStep" ThisKey="MatchId" OtherKey="MatchId" Type="_StutterStep" />
+      <Association Name="MatchStats_BombDefused" Member="BombDefused" ThisKey="MatchId" OtherKey="MatchId" Type="BombDefused" />
+      <Association Name="MatchStats_BombExplosion" Member="BombExplosion" ThisKey="MatchId" OtherKey="MatchId" Type="BombExplosion" />
+      <Association Name="MatchStats_BombPlant" Member="BombPlant" ThisKey="MatchId" OtherKey="MatchId" Type="BombPlant" />
+      <Association Name="MatchStats_BotTakeOver" Member="BotTakeOver" ThisKey="MatchId" OtherKey="MatchId" Type="BotTakeOver" />
+      <Association Name="MatchStats_ConnectDisconnect" Member="ConnectDisconnect" ThisKey="MatchId" OtherKey="MatchId" Type="ConnectDisconnect" />
+      <Association Name="MatchStats_Damage" Member="Damage" ThisKey="MatchId" OtherKey="MatchId" Type="Damage" />
+      <Association Name="MatchStats_Decoy" Member="Decoy" ThisKey="MatchId" OtherKey="MatchId" Type="Decoy" />
+      <Association Name="MatchStats_FireNade" Member="FireNade" ThisKey="MatchId" OtherKey="MatchId" Type="FireNade" />
+      <Association Name="MatchStats_Flash" Member="Flash" ThisKey="MatchId" OtherKey="MatchId" Type="Flash" />
+      <Association Name="MatchStats_Flashed" Member="Flashed" ThisKey="MatchId" OtherKey="MatchId" Type="Flashed" />
+      <Association Name="MatchStats_HE" Member="HE" ThisKey="MatchId" OtherKey="MatchId" Type="HE" />
+      <Association Name="MatchStats_HostageDrop" Member="HostageDrop" ThisKey="MatchId" OtherKey="MatchId" Type="HostageDrop" />
+      <Association Name="MatchStats_HostagePickUp" Member="HostagePickUp" ThisKey="MatchId" OtherKey="MatchId" Type="HostagePickUp" />
+      <Association Name="MatchStats_HostageRescue" Member="HostageRescue" ThisKey="MatchId" OtherKey="MatchId" Type="HostageRescue" />
+      <Association Name="MatchStats_ItemDropped" Member="ItemDropped" ThisKey="MatchId" OtherKey="MatchId" Type="ItemDropped" />
+      <Association Name="MatchStats_ItemPickedUp" Member="ItemPickedUp" ThisKey="MatchId" OtherKey="MatchId" Type="ItemPickedUp" />
+      <Association Name="MatchStats_ItemSaved" Member="ItemSaved" ThisKey="MatchId" OtherKey="MatchId" Type="ItemSaved" />
+      <Association Name="MatchStats_Kills" Member="Kills" ThisKey="MatchId" OtherKey="MatchId" Type="Kills" />
+      <Association Name="MatchStats_OverTimeStats" Member="OverTimeStats" ThisKey="MatchId" OtherKey="MatchId" Type="OverTimeStats" Cardinality="One" />
+      <Association Name="MatchStats_PlayerMatchStats" Member="PlayerMatchStats" ThisKey="MatchId" OtherKey="MatchId" Type="PlayerMatchStats" />
+      <Association Name="MatchStats_PlayerPosition" Member="PlayerPosition" ThisKey="MatchId" OtherKey="MatchId" Type="PlayerPosition" />
+      <Association Name="MatchStats_PlayerRoundStats" Member="PlayerRoundStats" ThisKey="MatchId" OtherKey="MatchId" Type="PlayerRoundStats" />
+      <Association Name="MatchStats_RoundItem" Member="RoundItem" ThisKey="MatchId" OtherKey="MatchId" Type="RoundItem" />
+      <Association Name="MatchStats_RoundStats" Member="RoundStats" ThisKey="MatchId" OtherKey="MatchId" Type="RoundStats" />
+      <Association Name="MatchStats_Smoke" Member="Smoke" ThisKey="MatchId" OtherKey="MatchId" Type="Smoke" />
+      <Association Name="MatchStats_WeaponFired" Member="WeaponFired" ThisKey="MatchId" OtherKey="MatchId" Type="WeaponFired" />
+      <Association Name="DemoStats_MatchStats" Member="DemoStats" ThisKey="DemoId" OtherKey="DemoId" Type="DemoStats" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.OverTimeStats" Member="OverTimeStats">
+    <Type Name="OverTimeStats">
+      <Column Name="MatchId" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="StartT" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
+      <Column Name="StartCT" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
+      <Column Name="StartMoney" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="NumRounds" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Association Name="MatchStats_OverTimeStats" Member="MatchStats" ThisKey="MatchId" OtherKey="MatchId" Type="MatchStats" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PlayerMatchStats" Member="PlayerMatchStats">
+    <Type Name="PlayerMatchStats">
+      <Column Name="MatchId" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="SteamId" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Team" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
+      <Column Name="Kills" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="Assists" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="Deaths" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="Score" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="MVPs" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="HS" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="HSKills" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="Shots" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="Hits" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="HSVictim" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="HSDeaths" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="Enemy2K" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="Enemy3K" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="Enemy4K" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="Enemy5K" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="Damage" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="DamageVictim" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="BombPlants" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="BombExplosions" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="BombDefuses" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="MoneyEarned" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MoneySpent" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MoneyLost" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="DecoysUsed" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="FireNadesUsed" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="FireNadesDamage" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="FireNadesDamageVictim" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="FlashesUsed" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="FlashesSucceeded" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="FlashVictim" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="TeamFlashed" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="TeamFlashVictim" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="SelfFlashed" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="HEsUsed" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="HEsDamage" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="HEsDamageVictim" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="SmokesUsed" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="FirstBloods" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="FirstBloodVictim" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="AVGTimeAlive" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="TeamDamage" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="TeamKills" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="EntryKills" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="EntryKillVictim" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Suicides" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="BombVictim" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="HLTVRating1" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="HLTVRating2" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="RankBeforeMatch" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
+      <Column Name="RankAfterMatch" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
+      <Column Name="RealKills" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="RealDeaths" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="RealAssists" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="RealScore" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="RealMVPs" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Association Name="PlayerMatchStats_WeaponReload" Member="WeaponReload" ThisKey="MatchId,SteamId" OtherKey="MatchId,PlayerId" Type="WeaponReload" />
+      <Association Name="PlayerMatchStats__PlayerMatchSmokeStats" Member="_PlayerMatchSmokeStats" ThisKey="MatchId,SteamId" OtherKey="MatchId,PlayerId" Type="_PlayerMatchSmokeStats" />
+      <Association Name="PlayerMatchStats__StutterStep" Member="_StutterStep" ThisKey="MatchId,SteamId" OtherKey="MatchId,PlayerId" Type="_StutterStep" />
+      <Association Name="PlayerMatchStats_BombDefused" Member="BombDefused" ThisKey="MatchId,SteamId" OtherKey="MatchId,PlayerId" Type="BombDefused" />
+      <Association Name="PlayerMatchStats_BombPlant" Member="BombPlant" ThisKey="MatchId,SteamId" OtherKey="MatchId,PlayerId" Type="BombPlant" />
+      <Association Name="PlayerMatchStats_BotTakeOver" Member="BotTakeOver" ThisKey="MatchId,SteamId" OtherKey="MatchId,PlayerId" Type="BotTakeOver" />
+      <Association Name="PlayerMatchStats_ConnectDisconnect" Member="ConnectDisconnect" ThisKey="MatchId,SteamId" OtherKey="MatchId,PlayerId" Type="ConnectDisconnect" />
+      <Association Name="PlayerMatchStats_Damage" Member="Damage1" ThisKey="MatchId,SteamId" OtherKey="MatchId,PlayerId" Type="Damage" />
+      <Association Name="PlayerMatchStats_Damage1" Member="Damage2" ThisKey="MatchId,SteamId" OtherKey="MatchId,VictimId" Type="Damage" />
+      <Association Name="PlayerMatchStats_Decoy" Member="Decoy" ThisKey="MatchId,SteamId" OtherKey="MatchId,PlayerId" Type="Decoy" />
+      <Association Name="PlayerMatchStats_FireNade" Member="FireNade" ThisKey="MatchId,SteamId" OtherKey="MatchId,PlayerId" Type="FireNade" />
+      <Association Name="PlayerMatchStats_Flash" Member="Flash" ThisKey="MatchId,SteamId" OtherKey="MatchId,PlayerId" Type="Flash" />
+      <Association Name="PlayerMatchStats_Flashed" Member="Flashed" ThisKey="MatchId,SteamId" OtherKey="MatchId,VictimId" Type="Flashed" />
+      <Association Name="PlayerMatchStats_HE" Member="HE" ThisKey="MatchId,SteamId" OtherKey="MatchId,PlayerId" Type="HE" />
+      <Association Name="PlayerMatchStats_HostageDrop" Member="HostageDrop" ThisKey="MatchId,SteamId" OtherKey="MatchId,PlayerId" Type="HostageDrop" />
+      <Association Name="PlayerMatchStats_HostagePickUp" Member="HostagePickUp" ThisKey="MatchId,SteamId" OtherKey="MatchId,PlayerId" Type="HostagePickUp" />
+      <Association Name="PlayerMatchStats_HostageRescue" Member="HostageRescue" ThisKey="MatchId,SteamId" OtherKey="MatchId,PlayerId" Type="HostageRescue" />
+      <Association Name="PlayerMatchStats_ItemDropped" Member="ItemDropped" ThisKey="MatchId,SteamId" OtherKey="MatchId,PlayerId" Type="ItemDropped" />
+      <Association Name="PlayerMatchStats_ItemPickedUp" Member="ItemPickedUp" ThisKey="MatchId,SteamId" OtherKey="MatchId,PlayerId" Type="ItemPickedUp" />
+      <Association Name="PlayerMatchStats_ItemSaved" Member="ItemSaved" ThisKey="MatchId,SteamId" OtherKey="MatchId,PlayerId" Type="ItemSaved" />
+      <Association Name="PlayerMatchStats_Kills" Member="Kills1" ThisKey="MatchId,SteamId" OtherKey="MatchId,PlayerId" Type="Kills" />
+      <Association Name="PlayerMatchStats_Kills1" Member="Kills2" ThisKey="MatchId,SteamId" OtherKey="MatchId,VictimId" Type="Kills" />
+      <Association Name="PlayerMatchStats_PlayerPosition" Member="PlayerPosition" ThisKey="MatchId,SteamId" OtherKey="MatchId,PlayerId" Type="PlayerPosition" />
+      <Association Name="PlayerMatchStats_PlayerRoundStats" Member="PlayerRoundStats" ThisKey="MatchId,SteamId" OtherKey="MatchId,PlayerId" Type="PlayerRoundStats" />
+      <Association Name="PlayerMatchStats_RoundItem" Member="RoundItem" ThisKey="MatchId,SteamId" OtherKey="MatchId,PlayerId" Type="RoundItem" />
+      <Association Name="PlayerMatchStats_Smoke" Member="Smoke" ThisKey="MatchId,SteamId" OtherKey="MatchId,PlayerId" Type="Smoke" />
+      <Association Name="PlayerMatchStats_WeaponFired" Member="WeaponFired" ThisKey="MatchId,SteamId" OtherKey="MatchId,PlayerId" Type="WeaponFired" />
+      <Association Name="MatchStats_PlayerMatchStats" Member="MatchStats" ThisKey="MatchId" OtherKey="MatchId" Type="MatchStats" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="PlayerStats_PlayerMatchStats" Member="PlayerStats" ThisKey="SteamId" OtherKey="SteamId" Type="PlayerStats" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PlayerPosition" Member="PlayerPosition">
+    <Type Name="PlayerPosition">
+      <Column Name="MatchId" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Round" Type="System.Int16" DbType="SmallInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Time" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Tick" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerId" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="PlayerPosX" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerPosY" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerPosZ" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerViewX" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerViewY" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerVeloX" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerVeloY" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerVeloZ" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="Weapon" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Association Name="MatchStats_PlayerPosition" Member="MatchStats" ThisKey="MatchId" OtherKey="MatchId" Type="MatchStats" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="PlayerMatchStats_PlayerPosition" Member="PlayerMatchStats" ThisKey="MatchId,PlayerId" OtherKey="MatchId,SteamId" Type="PlayerMatchStats" IsForeignKey="true" />
+      <Association Name="PlayerRoundStats_PlayerPosition" Member="PlayerRoundStats" ThisKey="MatchId,Round,PlayerId" OtherKey="MatchId,Round,PlayerId" Type="PlayerRoundStats" IsForeignKey="true" />
+      <Association Name="RoundStats_PlayerPosition" Member="RoundStats" ThisKey="MatchId,Round" OtherKey="MatchId,Round" Type="RoundStats" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PlayerRoundStats" Member="PlayerRoundStats">
+    <Type Name="PlayerRoundStats">
+      <Column Name="MatchId" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Round" Type="System.Int16" DbType="SmallInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="PlayerId" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="PlayedEquipmentValue" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MoneyInitial" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MoneySaved" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MoneyEarned" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MoneySpent" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MoneyLost" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="GiftedValue" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ReceivedGiftValue" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IsCT" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="ArmorType" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="PathId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="RoundStartKills" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="RoundStartDeaths" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="RoundStartAssists" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="RoundStartScore" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="RoundStartMVPs" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="RoundStartDamage" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Association Name="PlayerRoundStats_WeaponReload" Member="WeaponReload" ThisKey="MatchId,Round,PlayerId" OtherKey="MatchId,Round,PlayerId" Type="WeaponReload" />
+      <Association Name="PlayerRoundStats_BombDefused" Member="BombDefused" ThisKey="MatchId,Round,PlayerId" OtherKey="MatchId,Round,PlayerId" Type="BombDefused" />
+      <Association Name="PlayerRoundStats_BombPlant" Member="BombPlant" ThisKey="MatchId,Round,PlayerId" OtherKey="MatchId,Round,PlayerId" Type="BombPlant" />
+      <Association Name="PlayerRoundStats_BotTakeOver" Member="BotTakeOver" ThisKey="MatchId,Round,PlayerId" OtherKey="MatchId,Round,PlayerId" Type="BotTakeOver" />
+      <Association Name="PlayerRoundStats_Damage" Member="Damage" ThisKey="MatchId,Round,PlayerId" OtherKey="MatchId,Round,PlayerId" Type="Damage" />
+      <Association Name="PlayerRoundStats_Damage1" Member="Damage1" ThisKey="MatchId,Round,PlayerId" OtherKey="MatchId,Round,VictimId" Type="Damage" />
+      <Association Name="PlayerRoundStats_Decoy" Member="Decoy" ThisKey="MatchId,Round,PlayerId" OtherKey="MatchId,Round,PlayerId" Type="Decoy" />
+      <Association Name="PlayerRoundStats_FireNade" Member="FireNade" ThisKey="MatchId,Round,PlayerId" OtherKey="MatchId,Round,PlayerId" Type="FireNade" />
+      <Association Name="PlayerRoundStats_Flash" Member="Flash" ThisKey="MatchId,Round,PlayerId" OtherKey="MatchId,Round,PlayerId" Type="Flash" />
+      <Association Name="PlayerRoundStats_Flashed" Member="Flashed" ThisKey="MatchId,Round,PlayerId" OtherKey="MatchId,Round,VictimId" Type="Flashed" />
+      <Association Name="PlayerRoundStats_HE" Member="HE" ThisKey="MatchId,Round,PlayerId" OtherKey="MatchId,Round,PlayerId" Type="HE" />
+      <Association Name="PlayerRoundStats_HostageDrop" Member="HostageDrop" ThisKey="MatchId,Round,PlayerId" OtherKey="MatchId,Round,PlayerId" Type="HostageDrop" />
+      <Association Name="PlayerRoundStats_HostagePickUp" Member="HostagePickUp" ThisKey="MatchId,Round,PlayerId" OtherKey="MatchId,Round,PlayerId" Type="HostagePickUp" />
+      <Association Name="PlayerRoundStats_HostageRescue" Member="HostageRescue" ThisKey="MatchId,Round,PlayerId" OtherKey="MatchId,Round,PlayerId" Type="HostageRescue" />
+      <Association Name="PlayerRoundStats_ItemDropped" Member="ItemDropped" ThisKey="MatchId,Round,PlayerId" OtherKey="MatchId,Round,PlayerId" Type="ItemDropped" />
+      <Association Name="PlayerRoundStats_ItemPickedUp" Member="ItemPickedUp" ThisKey="MatchId,Round,PlayerId" OtherKey="MatchId,Round,PlayerId" Type="ItemPickedUp" />
+      <Association Name="PlayerRoundStats_ItemSaved" Member="ItemSaved" ThisKey="MatchId,Round,PlayerId" OtherKey="MatchId,Round,PlayerId" Type="ItemSaved" />
+      <Association Name="PlayerRoundStats_Kills" Member="Kills" ThisKey="MatchId,Round,PlayerId" OtherKey="MatchId,Round,PlayerId" Type="Kills" />
+      <Association Name="PlayerRoundStats_Kills1" Member="Kills1" ThisKey="MatchId,Round,PlayerId" OtherKey="MatchId,Round,VictimId" Type="Kills" />
+      <Association Name="PlayerRoundStats_PlayerPosition" Member="PlayerPosition" ThisKey="MatchId,Round,PlayerId" OtherKey="MatchId,Round,PlayerId" Type="PlayerPosition" />
+      <Association Name="PlayerRoundStats_RoundItem" Member="RoundItem" ThisKey="MatchId,Round,PlayerId" OtherKey="MatchId,Round,PlayerId" Type="RoundItem" />
+      <Association Name="PlayerRoundStats_Smoke" Member="Smoke" ThisKey="MatchId,Round,PlayerId" OtherKey="MatchId,Round,PlayerId" Type="Smoke" />
+      <Association Name="PlayerRoundStats_WeaponFired" Member="WeaponFired" ThisKey="MatchId,Round,PlayerId" OtherKey="MatchId,Round,PlayerId" Type="WeaponFired" />
+      <Association Name="MatchStats_PlayerRoundStats" Member="MatchStats" ThisKey="MatchId" OtherKey="MatchId" Type="MatchStats" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="PlayerMatchStats_PlayerRoundStats" Member="PlayerMatchStats" ThisKey="MatchId,PlayerId" OtherKey="MatchId,SteamId" Type="PlayerMatchStats" IsForeignKey="true" />
+      <Association Name="PlayerStats_PlayerRoundStats" Member="PlayerStats" ThisKey="PlayerId" OtherKey="SteamId" Type="PlayerStats" IsForeignKey="true" />
+      <Association Name="RoundStats_PlayerRoundStats" Member="RoundStats" ThisKey="MatchId,Round" OtherKey="MatchId,Round" Type="RoundStats" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PlayerStats" Member="PlayerStats">
+    <Type Name="PlayerStats">
+      <Column Name="SteamId" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="SteamName" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="AvatarIcon" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="Banned" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="NumOfVACBans" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="NumOfGameBans" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="LastVacBan" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="LastGameBan" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="BlameCounter" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="GamesPlayed" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="GamesWon" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Rank" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
+      <Column Name="LastRankUpdate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Kills" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="Assists" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="Deaths" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="Score" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="MVPs" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="HS" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="HSKills" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="Shots" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="Hits" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="HSVictim" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="HSDeaths" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="Enemy2K" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="Enemy3K" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="Enemy4K" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="Enemy5K" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="Damage" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="DamageVictim" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="BombPlants" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="BombExplosions" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="BombDefuses" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="MoneyEarned" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="MoneySpent" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="MoneyLost" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="DecoysUsed" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="FireNadesUsed" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="FireNadesDamage" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="FireNadesDamageVictim" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="FlashesUsed" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="FlashesSucceeded" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="FlashVictim" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="TeamFlashed" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="TeamFlashVictim" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="SelfFlashed" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="HEsUsed" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="HEsDamage" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="HEsDamageVictim" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="SmokesUsed" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="FirstBloods" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="FirstBloodVictim" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="AVGTimeAlive" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="TeamDamage" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="TeamKills" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="EntryKills" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="EntryKillVictim" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="Suicides" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="BombVictim" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="HLTVRating1" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="HLTVRating2" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Association Name="PlayerStats_PlayerMatchStats" Member="PlayerMatchStats" ThisKey="SteamId" OtherKey="SteamId" Type="PlayerMatchStats" />
+      <Association Name="PlayerStats_PlayerRoundStats" Member="PlayerRoundStats" ThisKey="SteamId" OtherKey="PlayerId" Type="PlayerRoundStats" />
+    </Type>
+  </Table>
+  <Table Name="dbo.RoundItem" Member="RoundItem">
+    <Type Name="RoundItem">
+      <Column Name="MatchId" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Round" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="IsCT" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="RoundItemId" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ItemId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="Equipment" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Association Name="MatchStats_RoundItem" Member="MatchStats" ThisKey="MatchId" OtherKey="MatchId" Type="MatchStats" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="PlayerMatchStats_RoundItem" Member="PlayerMatchStats" ThisKey="MatchId,PlayerId" OtherKey="MatchId,SteamId" Type="PlayerMatchStats" IsForeignKey="true" />
+      <Association Name="PlayerRoundStats_RoundItem" Member="PlayerRoundStats" ThisKey="MatchId,Round,PlayerId" OtherKey="MatchId,Round,PlayerId" Type="PlayerRoundStats" IsForeignKey="true" />
+      <Association Name="RoundStats_RoundItem" Member="RoundStats" ThisKey="MatchId,Round" OtherKey="MatchId,Round" Type="RoundStats" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.RoundStats" Member="RoundStats">
+    <Type Name="RoundStats">
+      <Column Name="MatchId" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Round" Type="System.Int16" DbType="SmallInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="WinnerTeam" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
+      <Column Name="OriginalSide" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="BombPlanted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="WinType" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Column Name="RoundTime" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="StartTime" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="EndTime" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="RealEndTime" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="StartTick" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="EndTick" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="RealEndTick" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="TerrorStrategyId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CtStrategyId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CtPlayedValue" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="TPlayedValue" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[_CtBuyStrat]" Member="_CtBuyStrat" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[_TBuyStrat]" Member="_TBuyStrat" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="RoundStats_WeaponReload" Member="WeaponReload" ThisKey="MatchId,Round" OtherKey="MatchId,Round" Type="WeaponReload" />
+      <Association Name="RoundStats__StutterStep" Member="_StutterStep" ThisKey="MatchId,Round" OtherKey="MatchId,Round" Type="_StutterStep" />
+      <Association Name="RoundStats_BombDefused" Member="BombDefused" ThisKey="MatchId,Round" OtherKey="MatchId,Round" Type="BombDefused" Cardinality="One" />
+      <Association Name="RoundStats_BombExplosion" Member="BombExplosion" ThisKey="MatchId,Round" OtherKey="MatchId,Round" Type="BombExplosion" Cardinality="One" />
+      <Association Name="RoundStats_BombPlant" Member="BombPlant" ThisKey="MatchId,Round" OtherKey="MatchId,Round" Type="BombPlant" Cardinality="One" />
+      <Association Name="RoundStats_BotTakeOver" Member="BotTakeOver" ThisKey="MatchId,Round" OtherKey="MatchId,Round" Type="BotTakeOver" />
+      <Association Name="RoundStats_ConnectDisconnect" Member="ConnectDisconnect" ThisKey="MatchId,Round" OtherKey="MatchId,Round" Type="ConnectDisconnect" />
+      <Association Name="RoundStats_Damage" Member="Damage" ThisKey="MatchId,Round" OtherKey="MatchId,Round" Type="Damage" />
+      <Association Name="RoundStats_Decoy" Member="Decoy" ThisKey="MatchId,Round" OtherKey="MatchId,Round" Type="Decoy" />
+      <Association Name="RoundStats_FireNade" Member="FireNade" ThisKey="MatchId,Round" OtherKey="MatchId,Round" Type="FireNade" />
+      <Association Name="RoundStats_Flash" Member="Flash" ThisKey="MatchId,Round" OtherKey="MatchId,Round" Type="Flash" />
+      <Association Name="RoundStats_Flashed" Member="Flashed" ThisKey="MatchId,Round" OtherKey="MatchId,Round" Type="Flashed" />
+      <Association Name="RoundStats_HE" Member="HE" ThisKey="MatchId,Round" OtherKey="MatchId,Round" Type="HE" />
+      <Association Name="RoundStats_HostageDrop" Member="HostageDrop" ThisKey="MatchId,Round" OtherKey="MatchId,Round" Type="HostageDrop" />
+      <Association Name="RoundStats_HostagePickUp" Member="HostagePickUp" ThisKey="MatchId,Round" OtherKey="MatchId,Round" Type="HostagePickUp" />
+      <Association Name="RoundStats_HostageRescue" Member="HostageRescue" ThisKey="MatchId,Round" OtherKey="MatchId,Round" Type="HostageRescue" />
+      <Association Name="RoundStats_ItemDropped" Member="ItemDropped" ThisKey="MatchId,Round" OtherKey="MatchId,Round" Type="ItemDropped" />
+      <Association Name="RoundStats_ItemPickedUp" Member="ItemPickedUp" ThisKey="MatchId,Round" OtherKey="MatchId,Round" Type="ItemPickedUp" />
+      <Association Name="RoundStats_ItemSaved" Member="ItemSaved" ThisKey="MatchId,Round" OtherKey="MatchId,Round" Type="ItemSaved" />
+      <Association Name="RoundStats_Kills" Member="Kills" ThisKey="MatchId,Round" OtherKey="MatchId,Round" Type="Kills" />
+      <Association Name="RoundStats_PlayerPosition" Member="PlayerPosition" ThisKey="MatchId,Round" OtherKey="MatchId,Round" Type="PlayerPosition" />
+      <Association Name="RoundStats_PlayerRoundStats" Member="PlayerRoundStats" ThisKey="MatchId,Round" OtherKey="MatchId,Round" Type="PlayerRoundStats" />
+      <Association Name="RoundStats_RoundItem" Member="RoundItem" ThisKey="MatchId,Round" OtherKey="MatchId,Round" Type="RoundItem" />
+      <Association Name="RoundStats_Smoke" Member="Smoke" ThisKey="MatchId,Round" OtherKey="MatchId,Round" Type="Smoke" />
+      <Association Name="RoundStats_WeaponFired" Member="WeaponFired" ThisKey="MatchId,Round" OtherKey="MatchId,Round" Type="WeaponFired" />
+      <Association Name="MatchStats_RoundStats" Member="MatchStats" ThisKey="MatchId" OtherKey="MatchId" Type="MatchStats" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Smoke" Member="Smoke">
+    <Type Name="Smoke">
+      <Column Name="MatchId" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="GrenadeId" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Round" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="Time" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Tick" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerPosX" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerPosY" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerPosZ" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerViewX" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerViewY" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="IsCT" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="GrenadePosX" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="GrenadePosY" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="GrenadePosZ" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="[_Category]" Member="_Category" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[_Target]" Member="_Target" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[_Result]" Member="_Result" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
+      <Column Name="Trajectory" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Association Name="MatchStats_Smoke" Member="MatchStats" ThisKey="MatchId" OtherKey="MatchId" Type="MatchStats" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="PlayerMatchStats_Smoke" Member="PlayerMatchStats" ThisKey="MatchId,PlayerId" OtherKey="MatchId,SteamId" Type="PlayerMatchStats" IsForeignKey="true" />
+      <Association Name="PlayerRoundStats_Smoke" Member="PlayerRoundStats" ThisKey="MatchId,Round,PlayerId" OtherKey="MatchId,Round,PlayerId" Type="PlayerRoundStats" IsForeignKey="true" />
+      <Association Name="RoundStats_Smoke" Member="RoundStats" ThisKey="MatchId,Round" OtherKey="MatchId,Round" Type="RoundStats" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.WeaponFired" Member="WeaponFired">
+    <Type Name="WeaponFired">
+      <Column Name="MatchId" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="WeaponFiredId" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Round" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="Time" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Tick" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerPosX" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerPosY" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerPosZ" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerViewX" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerViewY" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerVeloX" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerVeloY" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerVeloZ" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="IsCT" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="Weapon" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="InAccuracyFromFiring" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="InAccuracyFromMoving" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="PlayerState" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Association Name="WeaponFired__StutterStep" Member="_StutterStep" ThisKey="MatchId,WeaponFiredId" OtherKey="MatchId,WeaponFiredId" Type="_StutterStep" />
+      <Association Name="WeaponFired_Damage" Member="Damage" ThisKey="MatchId,WeaponFiredId" OtherKey="MatchId,WeaponFiredId" Type="Damage" />
+      <Association Name="MatchStats_WeaponFired" Member="MatchStats" ThisKey="MatchId" OtherKey="MatchId" Type="MatchStats" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="PlayerMatchStats_WeaponFired" Member="PlayerMatchStats" ThisKey="MatchId,PlayerId" OtherKey="MatchId,SteamId" Type="PlayerMatchStats" IsForeignKey="true" />
+      <Association Name="PlayerRoundStats_WeaponFired" Member="PlayerRoundStats" ThisKey="MatchId,Round,PlayerId" OtherKey="MatchId,Round,PlayerId" Type="PlayerRoundStats" IsForeignKey="true" />
+      <Association Name="RoundStats_WeaponFired" Member="RoundStats" ThisKey="MatchId,Round" OtherKey="MatchId,Round" Type="RoundStats" IsForeignKey="true" />
+    </Type>
+  </Table>
+</Database>
