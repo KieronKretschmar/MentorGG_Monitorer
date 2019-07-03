@@ -80,29 +80,25 @@ namespace MentorMonitorer
             }
         }
 
-        public static DateTime DemoAnalyzerLastActivity()
+        public static int MatchesWaitingForDemoAnalyzer()
         {
             using (DemoAnalyzerDataClassesDataContext dbContext
                 = new DemoAnalyzerDataClassesDataContext())
             {
                 return dbContext.DemoStats
-                    .Where(x => x.Status == 3 || x.Status == 4)
-                    .Select(x => x.MatchDate)
-                    .OrderByDescending(x => x)
-                    .FirstOrDefault();
+                    .Where(x => x.Status == 2)
+                    .Count();
             }
         }
 
-        public static DateTime PyAnalyzerLastActivity()
+        public static int MatchesWaitingForPyAnalyzer()
         {
             using (DemoAnalyzerDataClassesDataContext dbContext
                 = new DemoAnalyzerDataClassesDataContext())
             {
                 return dbContext.DemoStats
-                    .Where(x => x.Status == 5 || x.Status == 6)
-                    .Select(x => x.MatchDate)
-                    .OrderByDescending(x => x)
-                    .FirstOrDefault();
+                    .Where(x => x.Status == 3)
+                    .Count();
             }
         }
 

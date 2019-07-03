@@ -39,11 +39,11 @@ namespace MentorMonitorer
                 }
 
                 // DemoAnalyzer Activity
-                var demoAnalyzerLastActivity = ActivityChecker.DemoAnalyzerLastActivity();
-                if (DateTime.Now - demoAnalyzerLastActivity > TimeSpan.FromHours(4))
+                var matchesWaitingForDemoAnalyzer = ActivityChecker.MatchesWaitingForDemoAnalyzer();
+                if (matchesWaitingForDemoAnalyzer > 5)
                 {
                     sendWarning = true;
-                    warningMsg += "There has not been a single new match analyzed by DemoAnalyzer since " + demoAnalyzerLastActivity.ToString() + ".\n";
+                    warningMsg += "There are " + matchesWaitingForDemoAnalyzer + " waiting to be analyzed by DemoAnalyzer.\n";
                 }
 
                 // DemoAnalyzer Functionality
@@ -54,12 +54,12 @@ namespace MentorMonitorer
                     warningMsg += "Of the last " + 20 + " matches, DemoAnalyzer or DemoDownloader failed " + demoDownloaderOrAnalyzerFailQuota * 100 + "%.\n";
                 }
 
-                // PyAnalyzer Activity
-                var pyAnalyzerLastActivity = ActivityChecker.PyAnalyzerLastActivity();
-                if (DateTime.Now - pyAnalyzerLastActivity > TimeSpan.FromHours(4))
+                // DemoAnalyzer Activity
+                var matchesWaitingForPyAnalyzer = ActivityChecker.MatchesWaitingForPyAnalyzer();
+                if (matchesWaitingForPyAnalyzer > 5)
                 {
                     sendWarning = true;
-                    warningMsg += "There has not been a single new match analyzed by PyAnalyzer since " + pyAnalyzerLastActivity.ToString() + ".\n";
+                    warningMsg += "There are " + matchesWaitingForPyAnalyzer + " waiting to be analyzed by PyAnalyzer.\n";
                 }
 
                 // PyAnalyzer Functionality
