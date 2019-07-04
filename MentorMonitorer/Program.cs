@@ -21,23 +21,45 @@ namespace MentorMonitorer
                 var warningMsg = "Report: \n";
                 var sendWarning = false;
 
-
+                // DemoServer
                 // DemoServer Activity
                 var LastNewMatchmakingDemo = ActivityChecker.LastNewMatchmakingDemo();
-                if (DateTime.Now - LastNewMatchmakingDemo > TimeSpan.FromHours(4))
+                if (DateTime.Now - LastNewMatchmakingDemo > TimeSpan.FromHours(6))
                 {
                     sendWarning = true;
                     warningMsg += "There has not been a single new matchmaking match in the database since " + LastNewMatchmakingDemo.ToString() + ".\n";
                 }
 
+
+                // DemoDownloader
+                // DemoDownloader Activity
+                var matchesWaitingForDemoDownloader = ActivityChecker.MatchesWaitingForDemoDownloader();
+                if (matchesWaitingForDemoDownloader > 5)
+                {
+                    sendWarning = true;
+                    warningMsg += "There are " + matchesWaitingForDemoDownloader + " waiting to be analyzed by DemoDownloader.\n";
+                }
+
+
+                // FaceitMatchGatherer 
                 // FaceitMatchGatherer Activity
+                var LastFaceitCheck = ActivityChecker.LastFaceitCheck();
+                if (DateTime.Now - LastFaceitCheck > TimeSpan.FromHours(1))
+                {
+                    sendWarning = true;
+                    warningMsg += "There has not been a single check for new faceit matches since " + LastFaceitCheck.ToString() + ".\n";
+                }
+
+                // FaceitMatchGatherer Functionality
                 var LastNewFaceitDemo = ActivityChecker.LastNewFaceitDemo();
-                if (DateTime.Now - LastNewFaceitDemo > TimeSpan.FromHours(4))
+                if (DateTime.Now - LastNewFaceitDemo > TimeSpan.FromHours(12))
                 {
                     sendWarning = true;
                     warningMsg += "There has not been a single new faceit match in the database since " + LastNewFaceitDemo.ToString() + ".\n";
                 }
 
+
+                // DemoAnalyzer
                 // DemoAnalyzer Activity
                 var matchesWaitingForDemoAnalyzer = ActivityChecker.MatchesWaitingForDemoAnalyzer();
                 if (matchesWaitingForDemoAnalyzer > 5)
@@ -54,14 +76,15 @@ namespace MentorMonitorer
                     warningMsg += "Of the last " + 20 + " matches, DemoAnalyzer or DemoDownloader failed " + demoDownloaderOrAnalyzerFailQuota * 100 + "%.\n";
                 }
 
-                // DemoAnalyzer Activity
+
+                // PyAnalyzer                
+                // PyAnalyzer Activity
                 var matchesWaitingForPyAnalyzer = ActivityChecker.MatchesWaitingForPyAnalyzer();
                 if (matchesWaitingForPyAnalyzer > 5)
                 {
                     sendWarning = true;
                     warningMsg += "There are " + matchesWaitingForPyAnalyzer + " waiting to be analyzed by PyAnalyzer.\n";
                 }
-
                 // PyAnalyzer Functionality
                 var pyAnalyzerFailQuota = ActivityChecker.PyAnalyzerFailQuota(20);
                 if (pyAnalyzerFailQuota > 0.2)
@@ -75,9 +98,9 @@ namespace MentorMonitorer
 
                 if (sendWarning)
                 {
-                    Log.WriteLine("At least one check failed. Sending report via whatsapp.");
+                    Log.WriteLine("At least one check failed. Sending report via email.");
                     Log.Write(warningMsg);
-                    WhatsappMessager.SendWhatsAppMessage(warningMsg);
+                    Messager.SendMail("MentorMonitorer Report", warningMsg, "k.kretschmar@hotmail.de");
                 }
                 else
                 {

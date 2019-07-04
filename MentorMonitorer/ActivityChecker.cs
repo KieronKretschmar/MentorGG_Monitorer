@@ -6,10 +6,6 @@ using System.Threading.Tasks;
 
 namespace MentorMonitorer
 {
-    /// <summary>
-    /// Set Twilio data as environment variable, 
-    /// see https://www.twilio.com/docs/usage/secure-credentials and https://www.twilio.com/blog/2017/01/how-to-set-environment-variables.html
-    /// </summary>
     static class ActivityChecker
     {
         public enum DemoStatus
@@ -50,6 +46,19 @@ namespace MentorMonitorer
             }
         }
 
+        public static DateTime LastFaceitCheck()
+        {
+            using (UserDataDataClassesDataContext dbContext
+                = new UserDataDataClassesDataContext())
+            {
+                return dbContext.AspNetUsers
+                    .Where(x=>x.FaceItLastCheck != null)
+                    .Select(x => (DateTime) x.FaceItLastCheck)
+                    .OrderByDescending(x => x)
+                    .First();
+            }
+        }
+
         public static float DemoDownloaderOrAnalyzerFailQuota(int recentMatches)
         {
             using (DemoAnalyzerDataClassesDataContext dbContext
@@ -77,6 +86,17 @@ namespace MentorMonitorer
                     .ToList();
 
                 return statusList.Count(x => x == (short)DemoStatus.PyAnalyzerFailed) / statusList.Count;
+            }
+        }
+
+        public static int MatchesWaitingForDemoDownloader()
+        {
+            using (DemoAnalyzerDataClassesDataContext dbContext
+                = new DemoAnalyzerDataClassesDataContext())
+            {
+                return dbContext.DemoStats
+                    .Where(x => x.Status == 1)
+                    .Count();
             }
         }
 
