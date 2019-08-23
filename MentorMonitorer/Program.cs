@@ -52,7 +52,7 @@ namespace MentorMonitorer
 
                 // FaceitMatchGatherer Functionality
                 var LastNewFaceitDemo = ActivityChecker.LastNewFaceitDemo();
-                if (DateTime.Now - LastNewFaceitDemo > TimeSpan.FromHours(12))
+                if (DateTime.Now - LastNewFaceitDemo > TimeSpan.FromHours(24))
                 {
                     sendWarning = true;
                     warningMsg += "There has not been a single new faceit match in the database since " + LastNewFaceitDemo.ToString() + ".\n";
