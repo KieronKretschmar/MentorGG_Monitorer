@@ -20,9 +20,33 @@ namespace MentorMonitorer
             while (true)
             {
 
-                CheckProcessesAreRunning(ProcessesToCheck);
+                var processRunningReport = CheckProcessesAreRunning(ProcessesToCheck);
 
-                CheckActivity();
+                if (processRunningReport.SendReport)
+                {
+                    Log.WriteLine("At least one process is not running. Sending report via whatsapp.");
+                    Log.Write(processRunningReport.Message);
+                    WhatsappMessager.SendWhatsAppMessage(processRunningReport.Message);
+                }
+                else
+                {
+                    Log.WriteLine("All Processes are running.");
+
+                }
+
+
+                var activityReport = CheckActivity();
+
+                if (activityReport.SendReport)
+                {
+                    Log.WriteLine("At least one check failed. Sending report via email.");
+                    Log.Write(activityReport.Message);
+                    MailMessager.SendMail("MentorMonitorer Report", activityReport.Message, "k.kretschmar@hotmail.de");
+                }
+                else
+                {
+                    Log.WriteLine("All Activity checks passed.");
+                }
 
                 // Sleep 30 minutes
                 Log.WriteLine("Sleeping for 30 minutes.");
@@ -31,19 +55,20 @@ namespace MentorMonitorer
 
         }
 
-        public static void CheckActivity()
+        public static Report CheckActivity()
         {
+            var report = new Report();
             // Diagnostics to be sent via mail
-            var emailMsg = "Report: \n";
-            var sendEmailWarning = false;
+            var message = "Report: \n";
+            var sendReport = false;
 
             // DemoServer
             // DemoServer Activity
             var LastNewMatchmakingDemo = ActivityChecker.LastNewMatchmakingDemo();
             if (DateTime.Now - LastNewMatchmakingDemo > TimeSpan.FromHours(6))
             {
-                sendEmailWarning = true;
-                emailMsg += "There has not been a single new matchmaking match in the database since " + LastNewMatchmakingDemo.ToString() + ".\n";
+                sendReport = true;
+                message += "There has not been a single new matchmaking match in the database since " + LastNewMatchmakingDemo.ToString() + ".\n";
             }
 
 
@@ -52,8 +77,8 @@ namespace MentorMonitorer
             var matchesWaitingForDemoDownloader = ActivityChecker.MatchesWaitingForDemoDownloader();
             if (matchesWaitingForDemoDownloader > 5)
             {
-                sendEmailWarning = true;
-                emailMsg += "There are " + matchesWaitingForDemoDownloader + " waiting to be analyzed by DemoDownloader.\n";
+                sendReport = true;
+                message += "There are " + matchesWaitingForDemoDownloader + " waiting to be analyzed by DemoDownloader.\n";
             }
 
 
@@ -62,16 +87,16 @@ namespace MentorMonitorer
             var LastFaceitCheck = ActivityChecker.LastFaceitCheck();
             if (DateTime.Now - LastFaceitCheck > TimeSpan.FromHours(1))
             {
-                sendEmailWarning = true;
-                emailMsg += "There has not been a single check for new faceit matches since " + LastFaceitCheck.ToString() + ".\n";
+                sendReport = true;
+                message += "There has not been a single check for new faceit matches since " + LastFaceitCheck.ToString() + ".\n";
             }
 
             // FaceitMatchGatherer Functionality
             var LastNewFaceitDemo = ActivityChecker.LastNewFaceitDemo();
             if (DateTime.Now - LastNewFaceitDemo > TimeSpan.FromHours(24))
             {
-                sendEmailWarning = true;
-                emailMsg += "There has not been a single new faceit match in the database since " + LastNewFaceitDemo.ToString() + ".\n";
+                sendReport = true;
+                message += "There has not been a single new faceit match in the database since " + LastNewFaceitDemo.ToString() + ".\n";
             }
 
 
@@ -80,16 +105,16 @@ namespace MentorMonitorer
             var matchesWaitingForDemoAnalyzer = ActivityChecker.MatchesWaitingForDemoAnalyzer();
             if (matchesWaitingForDemoAnalyzer > 5)
             {
-                sendEmailWarning = true;
-                emailMsg += "There are " + matchesWaitingForDemoAnalyzer + " waiting to be analyzed by DemoAnalyzer.\n";
+                sendReport = true;
+                message += "There are " + matchesWaitingForDemoAnalyzer + " waiting to be analyzed by DemoAnalyzer.\n";
             }
 
             // DemoAnalyzer Functionality
             var demoDownloaderOrAnalyzerFailQuota = ActivityChecker.DemoDownloaderOrAnalyzerFailQuota(20);
             if (demoDownloaderOrAnalyzerFailQuota > 0.2)
             {
-                sendEmailWarning = true;
-                emailMsg += "Of the last " + 20 + " matches, DemoAnalyzer or DemoDownloader failed " + demoDownloaderOrAnalyzerFailQuota * 100 + "%.\n";
+                sendReport = true;
+                message += "Of the last " + 20 + " matches, DemoAnalyzer or DemoDownloader failed " + demoDownloaderOrAnalyzerFailQuota * 100 + "%.\n";
             }
 
 
@@ -98,61 +123,52 @@ namespace MentorMonitorer
             var matchesWaitingForPyAnalyzer = ActivityChecker.MatchesWaitingForPyAnalyzer();
             if (matchesWaitingForPyAnalyzer > 5)
             {
-                sendEmailWarning = true;
-                emailMsg += "There are " + matchesWaitingForPyAnalyzer + " waiting to be analyzed by PyAnalyzer.\n";
+                sendReport = true;
+                message += "There are " + matchesWaitingForPyAnalyzer + " waiting to be analyzed by PyAnalyzer.\n";
             }
             // PyAnalyzer Functionality
             var pyAnalyzerFailQuota = ActivityChecker.PyAnalyzerFailQuota(20);
             if (pyAnalyzerFailQuota > 0.2)
             {
-                sendEmailWarning = true;
-                emailMsg += "Of the last " + 20 + " matches, PyAnalyzer failed " + pyAnalyzerFailQuota * 100 + "%.\n";
+                sendReport = true;
+                message += "Of the last " + 20 + " matches, PyAnalyzer failed " + pyAnalyzerFailQuota * 100 + "%.\n";
             }
 
-
-
-
-            if (sendEmailWarning)
+            return new Report
             {
-                Log.WriteLine("At least one check failed. Sending report via email.");
-                Log.Write(emailMsg);
-                MailMessager.SendMail("MentorMonitorer Report", emailMsg, "k.kretschmar@hotmail.de");
-            }
-            else
-            {
-                Log.WriteLine("All checks passed.");
-            }
+                SendReport = sendReport,
+                Message = message,
+            };
         }
             
-        public static void CheckProcessesAreRunning(List<string> processesToCheck)
+        public static Report CheckProcessesAreRunning(List<string> processesToCheck)
         {
             Log.WriteLine("Checking module activity.");
 
             // Diagnostics to be sent via mobile
-            var mobileMsg = "Report: \n";
-            var sendMobileWarning = false;
+            var message = "Report: \n";
+            var sendReport = false;
 
             foreach (var processName in processesToCheck)
             {
                 if (!ActivityChecker.ProcessIsRunning(processName))
                 {
-                    sendMobileWarning = true;
-                    mobileMsg += processName + " is not Running.\n";
+                    sendReport = true;
+                    message += processName + " is not Running.\n";
                 }
             }
 
-
-            if (sendMobileWarning)
+            return new Report
             {
-                Log.WriteLine("At least one process is not running. Sending report via whatsapp.");
-                Log.Write(mobileMsg);
-                WhatsappMessager.SendWhatsAppMessage(mobileMsg);
-            }
-            else
-            {
-                Log.WriteLine("All Processes are running.");
+                SendReport = sendReport,
+                Message = message,
+            };
+        }
 
-            }
+        public struct Report
+        {
+            public bool SendReport { get; set; }
+            public string Message { get; set; }
         }
     }
 }
