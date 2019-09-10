@@ -94,6 +94,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>UserDataDataClasses.dbml</DependentUpon>
     </Compile>
+    <Compile Include="MailMessager.cs" />
     <Compile Include="WhatsappMessager.cs" />
   </ItemGroup>
   <ItemGroup>
