@@ -49,9 +49,9 @@ namespace MentorMonitorer
                     Log.WriteLine("All Activity checks passed.");
                 }
 
-                // Sleep 30 minutes
-                Log.WriteLine("Sleeping for 30 minutes.");
-                Thread.Sleep(30 * 60 * 1000);
+                // Sleep 15 minutes
+                Log.WriteLine("Sleeping for 10 minutes.");
+                Thread.Sleep(10 * 60 * 1000);
             }
 
         }
