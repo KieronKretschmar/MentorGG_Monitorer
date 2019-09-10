@@ -27,7 +27,7 @@ namespace MentorMonitorer
                 = new DemoAnalyzerDataClassesDataContext())
             {               
                 return dbContext.DemoStats
-                    .Where(x=>(x.MatchStats.Select(y=>y.Source).SingleOrDefault() ?? "") == "Valve")
+                    .Where(x=> x.Source == "Valve")
                     .Select(x => x.MatchDate)
                     .OrderByDescending(x => x)
                     .FirstOrDefault();

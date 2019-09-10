@@ -26,7 +26,8 @@ namespace MentorMonitorer
                 {
                     Log.WriteLine("At least one process is not running. Sending report via whatsapp.");
                     Log.Write(processRunningReport.Message);
-                    WhatsappMessager.SendWhatsAppMessage(processRunningReport.Message);
+                    MailMessager.SendMail("MentorMonitorer Process Not Running Report", processRunningReport.Message, "k.kretschmar@hotmail.de");
+                    //WhatsappMessager.SendWhatsAppMessage(processRunningReport.Message);
                 }
                 else
                 {
