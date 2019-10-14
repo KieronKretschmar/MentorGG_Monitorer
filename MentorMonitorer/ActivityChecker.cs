@@ -142,7 +142,7 @@ namespace MentorMonitorer
 
         public static bool ProcessIsRunning(string processName)
         {
-            return Process.GetProcesses().Any(x => x.ProcessName == processName);
+            return Process.GetProcesses().Any(x => x.ProcessName.ToLowerInvariant() == processName.ToLowerInvariant());
         }
 
     }
