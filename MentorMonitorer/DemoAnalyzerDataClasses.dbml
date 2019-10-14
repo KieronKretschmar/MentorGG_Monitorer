@@ -48,10 +48,9 @@
       <Column Name="CenterYIngame" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
       <Column Name="CenterXPixel" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="CenterYPixel" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="ParentZoneId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ParentZoneId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ZoneDepth" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="_FireNadeZone__FireNadePolygonPoint" Member="_FireNadePolygonPoint" ThisKey="ZoneId" OtherKey="ZoneId" Type="_FireNadePolygonPoint" />
-      <Association Name="_FireNadeZone__FireNadeZone" Member="_FireNadeZone2" ThisKey="ZoneId" OtherKey="ParentZoneId" Type="_FireNadeZone" />
-      <Association Name="_FireNadeZone__FireNadeZone" Member="_FireNadeZone1" ThisKey="ParentZoneId" OtherKey="ZoneId" Type="_FireNadeZone" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.[_FlashPolygonPoint]" Member="_FlashPolygonPoint">
@@ -78,10 +77,9 @@
       <Column Name="CenterYIngame" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
       <Column Name="CenterXPixel" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="CenterYPixel" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="ParentZoneId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ParentZoneId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ZoneDepth" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="_FlashZone__FlashPolygonPoint" Member="_FlashPolygonPoint" ThisKey="ZoneId" OtherKey="ZoneId" Type="_FlashPolygonPoint" />
-      <Association Name="_FlashZone__FlashZone" Member="_FlashZone2" ThisKey="ZoneId" OtherKey="ParentZoneId" Type="_FlashZone" />
-      <Association Name="_FlashZone__FlashZone" Member="_FlashZone1" ThisKey="ParentZoneId" OtherKey="ZoneId" Type="_FlashZone" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.[_HEPolygonPoint]" Member="_HEPolygonPoint">
@@ -108,10 +106,9 @@
       <Column Name="CenterYIngame" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
       <Column Name="CenterXPixel" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="CenterYPixel" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="ParentZoneId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ParentZoneId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ZoneDepth" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="_HEZone__HEPolygonPoint" Member="_HEPolygonPoint" ThisKey="ZoneId" OtherKey="ZoneId" Type="_HEPolygonPoint" />
-      <Association Name="_HEZone__HEZone" Member="_HEZone2" ThisKey="ZoneId" OtherKey="ParentZoneId" Type="_HEZone" />
-      <Association Name="_HEZone__HEZone" Member="_HEZone1" ThisKey="ParentZoneId" OtherKey="ZoneId" Type="_HEZone" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.[_MapSettings]" Member="_MapSettings">
@@ -128,6 +125,13 @@
       <Column Name="CropYMax" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
+  <Table Name="dbo.[_OpposingZones]" Member="_OpposingZones">
+    <Type Name="_OpposingZones">
+      <Column Name="TZoneId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="CtZoneId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Map" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+    </Type>
+  </Table>
   <Table Name="dbo.[_PlayerMatchSmokeStats]" Member="_PlayerMatchSmokeStats">
     <Type Name="_PlayerMatchSmokeStats">
       <Column Name="MatchId" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
@@ -139,6 +143,17 @@
       <Column Name="[_Gapfrees]" Member="_Gapfrees" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
       <Association Name="MatchStats__PlayerMatchSmokeStats" Member="MatchStats" ThisKey="MatchId" OtherKey="MatchId" Type="MatchStats" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
       <Association Name="PlayerMatchStats__PlayerMatchSmokeStats" Member="PlayerMatchStats" ThisKey="MatchId,PlayerId" OtherKey="MatchId,SteamId" Type="PlayerMatchStats" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.[_PolygonPoint]" Member="_PolygonPoint">
+    <Type Name="_PolygonPoint">
+      <Column Name="ZoneId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="PointId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Map" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="XIngame" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="YIngame" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="XPixel" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="YPixel" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
   <Table Name="dbo.[_PositionOpposingZones]" Member="_PositionOpposingZones">
@@ -173,10 +188,9 @@
       <Column Name="CenterYIngame" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
       <Column Name="CenterXPixel" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="CenterYPixel" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="ParentZoneId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ParentZoneId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ZoneDepth" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="_PositionZone__PositionPolygonPoint" Member="_PositionPolygonPoint" ThisKey="ZoneId" OtherKey="ZoneId" Type="_PositionPolygonPoint" />
-      <Association Name="_PositionZone__PositionZone" Member="_PositionZone2" ThisKey="ZoneId" OtherKey="ParentZoneId" Type="_PositionZone" />
-      <Association Name="_PositionZone__PositionZone" Member="_PositionZone1" ThisKey="ParentZoneId" OtherKey="ZoneId" Type="_PositionZone" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.[_Refrag]" Member="_Refrag">
@@ -270,6 +284,20 @@
       <Column Name="Map" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="Name" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="SuperOrdinateId" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.[_Zone]" Member="_Zone">
+    <Type Name="_Zone">
+      <Column Name="ZoneId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Map" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="VideoUrl" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="ZMin" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="ZMax" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="CenterXIngame" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="CenterYIngame" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="CenterXPixel" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CenterYPixel" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
   <Table Name="dbo.BombDefused" Member="BombDefused">
@@ -421,6 +449,9 @@
       <Column Name="DemoAnalyzerVersion" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="PyAnalyzerVersion" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="FaceItMatchId" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="UploadedBy" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="UploadType" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="Source" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Association Name="DemoStats_MatchStats" Member="MatchStats" ThisKey="DemoId" OtherKey="DemoId" Type="MatchStats" />
     </Type>
   </Table>
@@ -536,16 +567,6 @@
       <Association Name="PlayerMatchStats_Flash" Member="PlayerMatchStats" ThisKey="MatchId,PlayerId" OtherKey="MatchId,SteamId" Type="PlayerMatchStats" IsForeignKey="true" />
       <Association Name="PlayerRoundStats_Flash" Member="PlayerRoundStats" ThisKey="MatchId,Round,PlayerId" OtherKey="MatchId,Round,PlayerId" Type="PlayerRoundStats" IsForeignKey="true" />
       <Association Name="RoundStats_Flash" Member="RoundStats" ThisKey="MatchId,Round" OtherKey="MatchId,Round" Type="RoundStats" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.FlashBounce" Member="FlashBounce">
-    <Type Name="FlashBounce">
-      <Column Name="MatchId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
-      <Column Name="GrenadeId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
-      <Column Name="Time" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="GrenadePosX" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
-      <Column Name="GrenadePosY" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
-      <Column Name="GrenadePosZ" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
   <Table Name="dbo.Flashed" Member="Flashed">
@@ -784,12 +805,12 @@
       <Column Name="StartMoney" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="DemoTickRate" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
       <Column Name="SourceTickRate" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
-      <Column Name="Event" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
       <Column Name="Source" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
       <Column Name="GameType" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
       <Column Name="AVGRank" Type="System.Double" DbType="Float" CanBeNull="true" />
       <Column Name="RealScore1" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
       <Column Name="RealScore2" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="Event" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
       <Association Name="MatchStats_WeaponReload" Member="WeaponReload" ThisKey="MatchId" OtherKey="MatchId" Type="WeaponReload" />
       <Association Name="MatchStats__PlayerMatchSmokeStats" Member="_PlayerMatchSmokeStats" ThisKey="MatchId" OtherKey="MatchId" Type="_PlayerMatchSmokeStats" />
       <Association Name="MatchStats__Refrag" Member="_Refrag" ThisKey="MatchId" OtherKey="MatchId" Type="_Refrag" />

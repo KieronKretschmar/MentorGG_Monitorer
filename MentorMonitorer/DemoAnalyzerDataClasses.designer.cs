@@ -54,9 +54,15 @@ namespace MentorMonitorer
     partial void Insert_MapSettings(_MapSettings instance);
     partial void Update_MapSettings(_MapSettings instance);
     partial void Delete_MapSettings(_MapSettings instance);
+    partial void Insert_OpposingZones(_OpposingZones instance);
+    partial void Update_OpposingZones(_OpposingZones instance);
+    partial void Delete_OpposingZones(_OpposingZones instance);
     partial void Insert_PlayerMatchSmokeStats(_PlayerMatchSmokeStats instance);
     partial void Update_PlayerMatchSmokeStats(_PlayerMatchSmokeStats instance);
     partial void Delete_PlayerMatchSmokeStats(_PlayerMatchSmokeStats instance);
+    partial void Insert_PolygonPoint(_PolygonPoint instance);
+    partial void Update_PolygonPoint(_PolygonPoint instance);
+    partial void Delete_PolygonPoint(_PolygonPoint instance);
     partial void Insert_PositionOpposingZones(_PositionOpposingZones instance);
     partial void Update_PositionOpposingZones(_PositionOpposingZones instance);
     partial void Delete_PositionOpposingZones(_PositionOpposingZones instance);
@@ -84,6 +90,9 @@ namespace MentorMonitorer
     partial void Insert_TeamStrategy(_TeamStrategy instance);
     partial void Update_TeamStrategy(_TeamStrategy instance);
     partial void Delete_TeamStrategy(_TeamStrategy instance);
+    partial void Insert_Zone(_Zone instance);
+    partial void Update_Zone(_Zone instance);
+    partial void Delete_Zone(_Zone instance);
     partial void InsertBombDefused(BombDefused instance);
     partial void UpdateBombDefused(BombDefused instance);
     partial void DeleteBombDefused(BombDefused instance);
@@ -273,11 +282,27 @@ namespace MentorMonitorer
 			}
 		}
 		
+		public System.Data.Linq.Table<_OpposingZones> _OpposingZones
+		{
+			get
+			{
+				return this.GetTable<_OpposingZones>();
+			}
+		}
+		
 		public System.Data.Linq.Table<_PlayerMatchSmokeStats> _PlayerMatchSmokeStats
 		{
 			get
 			{
 				return this.GetTable<_PlayerMatchSmokeStats>();
+			}
+		}
+		
+		public System.Data.Linq.Table<_PolygonPoint> _PolygonPoint
+		{
+			get
+			{
+				return this.GetTable<_PolygonPoint>();
 			}
 		}
 		
@@ -350,6 +375,14 @@ namespace MentorMonitorer
 			get
 			{
 				return this.GetTable<_TeamStrategy>();
+			}
+		}
+		
+		public System.Data.Linq.Table<_Zone> _Zone
+		{
+			get
+			{
+				return this.GetTable<_Zone>();
 			}
 		}
 		
@@ -438,14 +471,6 @@ namespace MentorMonitorer
 			get
 			{
 				return this.GetTable<Flash>();
-			}
-		}
-		
-		public System.Data.Linq.Table<FlashBounce> FlashBounce
-		{
-			get
-			{
-				return this.GetTable<FlashBounce>();
 			}
 		}
 		
@@ -1475,13 +1500,11 @@ namespace MentorMonitorer
 		
 		private int _CenterYPixel;
 		
-		private System.Nullable<int> _ParentZoneId;
+		private int _ParentZoneId;
+		
+		private int _ZoneDepth;
 		
 		private EntitySet<_FireNadePolygonPoint> @__FireNadePolygonPoint;
-		
-		private EntitySet<_FireNadeZone> @__FireNadeZone2;
-		
-		private EntityRef<_FireNadeZone> @__FireNadeZone1;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -1507,15 +1530,15 @@ namespace MentorMonitorer
     partial void OnCenterXPixelChanged();
     partial void OnCenterYPixelChanging(int value);
     partial void OnCenterYPixelChanged();
-    partial void OnParentZoneIdChanging(System.Nullable<int> value);
+    partial void OnParentZoneIdChanging(int value);
     partial void OnParentZoneIdChanged();
+    partial void OnZoneDepthChanging(int value);
+    partial void OnZoneDepthChanged();
     #endregion
 		
 		public _FireNadeZone()
 		{
 			this.@__FireNadePolygonPoint = new EntitySet<_FireNadePolygonPoint>(new Action<_FireNadePolygonPoint>(this.attach__FireNadePolygonPoint), new Action<_FireNadePolygonPoint>(this.detach__FireNadePolygonPoint));
-			this.@__FireNadeZone2 = new EntitySet<_FireNadeZone>(new Action<_FireNadeZone>(this.attach__FireNadeZone2), new Action<_FireNadeZone>(this.detach__FireNadeZone2));
-			this.@__FireNadeZone1 = default(EntityRef<_FireNadeZone>);
 			OnCreated();
 		}
 		
@@ -1719,8 +1742,8 @@ namespace MentorMonitorer
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParentZoneId", DbType="Int")]
-		public System.Nullable<int> ParentZoneId
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParentZoneId", DbType="Int NOT NULL")]
+		public int ParentZoneId
 		{
 			get
 			{
@@ -1730,15 +1753,31 @@ namespace MentorMonitorer
 			{
 				if ((this._ParentZoneId != value))
 				{
-					if (this.@__FireNadeZone1.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
 					this.OnParentZoneIdChanging(value);
 					this.SendPropertyChanging();
 					this._ParentZoneId = value;
 					this.SendPropertyChanged("ParentZoneId");
 					this.OnParentZoneIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ZoneDepth", DbType="Int NOT NULL")]
+		public int ZoneDepth
+		{
+			get
+			{
+				return this._ZoneDepth;
+			}
+			set
+			{
+				if ((this._ZoneDepth != value))
+				{
+					this.OnZoneDepthChanging(value);
+					this.SendPropertyChanging();
+					this._ZoneDepth = value;
+					this.SendPropertyChanged("ZoneDepth");
+					this.OnZoneDepthChanged();
 				}
 			}
 		}
@@ -1753,53 +1792,6 @@ namespace MentorMonitorer
 			set
 			{
 				this.@__FireNadePolygonPoint.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="_FireNadeZone__FireNadeZone", Storage="__FireNadeZone2", ThisKey="ZoneId", OtherKey="ParentZoneId")]
-		public EntitySet<_FireNadeZone> _FireNadeZone2
-		{
-			get
-			{
-				return this.@__FireNadeZone2;
-			}
-			set
-			{
-				this.@__FireNadeZone2.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="_FireNadeZone__FireNadeZone", Storage="__FireNadeZone1", ThisKey="ParentZoneId", OtherKey="ZoneId", IsForeignKey=true)]
-		public _FireNadeZone _FireNadeZone1
-		{
-			get
-			{
-				return this.@__FireNadeZone1.Entity;
-			}
-			set
-			{
-				_FireNadeZone previousValue = this.@__FireNadeZone1.Entity;
-				if (((previousValue != value) 
-							|| (this.@__FireNadeZone1.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this.@__FireNadeZone1.Entity = null;
-						previousValue._FireNadeZone2.Remove(this);
-					}
-					this.@__FireNadeZone1.Entity = value;
-					if ((value != null))
-					{
-						value._FireNadeZone2.Add(this);
-						this._ParentZoneId = value.ZoneId;
-					}
-					else
-					{
-						this._ParentZoneId = default(Nullable<int>);
-					}
-					this.SendPropertyChanged("_FireNadeZone1");
-				}
 			}
 		}
 		
@@ -1833,18 +1825,6 @@ namespace MentorMonitorer
 		{
 			this.SendPropertyChanging();
 			entity._FireNadeZone = null;
-		}
-		
-		private void attach__FireNadeZone2(_FireNadeZone entity)
-		{
-			this.SendPropertyChanging();
-			entity._FireNadeZone1 = this;
-		}
-		
-		private void detach__FireNadeZone2(_FireNadeZone entity)
-		{
-			this.SendPropertyChanging();
-			entity._FireNadeZone1 = null;
 		}
 	}
 	
@@ -2121,13 +2101,11 @@ namespace MentorMonitorer
 		
 		private int _CenterYPixel;
 		
-		private System.Nullable<int> _ParentZoneId;
+		private int _ParentZoneId;
+		
+		private int _ZoneDepth;
 		
 		private EntitySet<_FlashPolygonPoint> @__FlashPolygonPoint;
-		
-		private EntitySet<_FlashZone> @__FlashZone2;
-		
-		private EntityRef<_FlashZone> @__FlashZone1;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -2153,15 +2131,15 @@ namespace MentorMonitorer
     partial void OnCenterXPixelChanged();
     partial void OnCenterYPixelChanging(int value);
     partial void OnCenterYPixelChanged();
-    partial void OnParentZoneIdChanging(System.Nullable<int> value);
+    partial void OnParentZoneIdChanging(int value);
     partial void OnParentZoneIdChanged();
+    partial void OnZoneDepthChanging(int value);
+    partial void OnZoneDepthChanged();
     #endregion
 		
 		public _FlashZone()
 		{
 			this.@__FlashPolygonPoint = new EntitySet<_FlashPolygonPoint>(new Action<_FlashPolygonPoint>(this.attach__FlashPolygonPoint), new Action<_FlashPolygonPoint>(this.detach__FlashPolygonPoint));
-			this.@__FlashZone2 = new EntitySet<_FlashZone>(new Action<_FlashZone>(this.attach__FlashZone2), new Action<_FlashZone>(this.detach__FlashZone2));
-			this.@__FlashZone1 = default(EntityRef<_FlashZone>);
 			OnCreated();
 		}
 		
@@ -2365,8 +2343,8 @@ namespace MentorMonitorer
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParentZoneId", DbType="Int")]
-		public System.Nullable<int> ParentZoneId
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParentZoneId", DbType="Int NOT NULL")]
+		public int ParentZoneId
 		{
 			get
 			{
@@ -2376,15 +2354,31 @@ namespace MentorMonitorer
 			{
 				if ((this._ParentZoneId != value))
 				{
-					if (this.@__FlashZone1.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
 					this.OnParentZoneIdChanging(value);
 					this.SendPropertyChanging();
 					this._ParentZoneId = value;
 					this.SendPropertyChanged("ParentZoneId");
 					this.OnParentZoneIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ZoneDepth", DbType="Int NOT NULL")]
+		public int ZoneDepth
+		{
+			get
+			{
+				return this._ZoneDepth;
+			}
+			set
+			{
+				if ((this._ZoneDepth != value))
+				{
+					this.OnZoneDepthChanging(value);
+					this.SendPropertyChanging();
+					this._ZoneDepth = value;
+					this.SendPropertyChanged("ZoneDepth");
+					this.OnZoneDepthChanged();
 				}
 			}
 		}
@@ -2399,53 +2393,6 @@ namespace MentorMonitorer
 			set
 			{
 				this.@__FlashPolygonPoint.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="_FlashZone__FlashZone", Storage="__FlashZone2", ThisKey="ZoneId", OtherKey="ParentZoneId")]
-		public EntitySet<_FlashZone> _FlashZone2
-		{
-			get
-			{
-				return this.@__FlashZone2;
-			}
-			set
-			{
-				this.@__FlashZone2.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="_FlashZone__FlashZone", Storage="__FlashZone1", ThisKey="ParentZoneId", OtherKey="ZoneId", IsForeignKey=true)]
-		public _FlashZone _FlashZone1
-		{
-			get
-			{
-				return this.@__FlashZone1.Entity;
-			}
-			set
-			{
-				_FlashZone previousValue = this.@__FlashZone1.Entity;
-				if (((previousValue != value) 
-							|| (this.@__FlashZone1.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this.@__FlashZone1.Entity = null;
-						previousValue._FlashZone2.Remove(this);
-					}
-					this.@__FlashZone1.Entity = value;
-					if ((value != null))
-					{
-						value._FlashZone2.Add(this);
-						this._ParentZoneId = value.ZoneId;
-					}
-					else
-					{
-						this._ParentZoneId = default(Nullable<int>);
-					}
-					this.SendPropertyChanged("_FlashZone1");
-				}
 			}
 		}
 		
@@ -2479,18 +2426,6 @@ namespace MentorMonitorer
 		{
 			this.SendPropertyChanging();
 			entity._FlashZone = null;
-		}
-		
-		private void attach__FlashZone2(_FlashZone entity)
-		{
-			this.SendPropertyChanging();
-			entity._FlashZone1 = this;
-		}
-		
-		private void detach__FlashZone2(_FlashZone entity)
-		{
-			this.SendPropertyChanging();
-			entity._FlashZone1 = null;
 		}
 	}
 	
@@ -2767,13 +2702,11 @@ namespace MentorMonitorer
 		
 		private int _CenterYPixel;
 		
-		private System.Nullable<int> _ParentZoneId;
+		private int _ParentZoneId;
+		
+		private int _ZoneDepth;
 		
 		private EntitySet<_HEPolygonPoint> @__HEPolygonPoint;
-		
-		private EntitySet<_HEZone> @__HEZone2;
-		
-		private EntityRef<_HEZone> @__HEZone1;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -2799,15 +2732,15 @@ namespace MentorMonitorer
     partial void OnCenterXPixelChanged();
     partial void OnCenterYPixelChanging(int value);
     partial void OnCenterYPixelChanged();
-    partial void OnParentZoneIdChanging(System.Nullable<int> value);
+    partial void OnParentZoneIdChanging(int value);
     partial void OnParentZoneIdChanged();
+    partial void OnZoneDepthChanging(int value);
+    partial void OnZoneDepthChanged();
     #endregion
 		
 		public _HEZone()
 		{
 			this.@__HEPolygonPoint = new EntitySet<_HEPolygonPoint>(new Action<_HEPolygonPoint>(this.attach__HEPolygonPoint), new Action<_HEPolygonPoint>(this.detach__HEPolygonPoint));
-			this.@__HEZone2 = new EntitySet<_HEZone>(new Action<_HEZone>(this.attach__HEZone2), new Action<_HEZone>(this.detach__HEZone2));
-			this.@__HEZone1 = default(EntityRef<_HEZone>);
 			OnCreated();
 		}
 		
@@ -3011,8 +2944,8 @@ namespace MentorMonitorer
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParentZoneId", DbType="Int")]
-		public System.Nullable<int> ParentZoneId
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParentZoneId", DbType="Int NOT NULL")]
+		public int ParentZoneId
 		{
 			get
 			{
@@ -3022,15 +2955,31 @@ namespace MentorMonitorer
 			{
 				if ((this._ParentZoneId != value))
 				{
-					if (this.@__HEZone1.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
 					this.OnParentZoneIdChanging(value);
 					this.SendPropertyChanging();
 					this._ParentZoneId = value;
 					this.SendPropertyChanged("ParentZoneId");
 					this.OnParentZoneIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ZoneDepth", DbType="Int NOT NULL")]
+		public int ZoneDepth
+		{
+			get
+			{
+				return this._ZoneDepth;
+			}
+			set
+			{
+				if ((this._ZoneDepth != value))
+				{
+					this.OnZoneDepthChanging(value);
+					this.SendPropertyChanging();
+					this._ZoneDepth = value;
+					this.SendPropertyChanged("ZoneDepth");
+					this.OnZoneDepthChanged();
 				}
 			}
 		}
@@ -3045,53 +2994,6 @@ namespace MentorMonitorer
 			set
 			{
 				this.@__HEPolygonPoint.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="_HEZone__HEZone", Storage="__HEZone2", ThisKey="ZoneId", OtherKey="ParentZoneId")]
-		public EntitySet<_HEZone> _HEZone2
-		{
-			get
-			{
-				return this.@__HEZone2;
-			}
-			set
-			{
-				this.@__HEZone2.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="_HEZone__HEZone", Storage="__HEZone1", ThisKey="ParentZoneId", OtherKey="ZoneId", IsForeignKey=true)]
-		public _HEZone _HEZone1
-		{
-			get
-			{
-				return this.@__HEZone1.Entity;
-			}
-			set
-			{
-				_HEZone previousValue = this.@__HEZone1.Entity;
-				if (((previousValue != value) 
-							|| (this.@__HEZone1.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this.@__HEZone1.Entity = null;
-						previousValue._HEZone2.Remove(this);
-					}
-					this.@__HEZone1.Entity = value;
-					if ((value != null))
-					{
-						value._HEZone2.Add(this);
-						this._ParentZoneId = value.ZoneId;
-					}
-					else
-					{
-						this._ParentZoneId = default(Nullable<int>);
-					}
-					this.SendPropertyChanged("_HEZone1");
-				}
 			}
 		}
 		
@@ -3125,18 +3027,6 @@ namespace MentorMonitorer
 		{
 			this.SendPropertyChanging();
 			entity._HEZone = null;
-		}
-		
-		private void attach__HEZone2(_HEZone entity)
-		{
-			this.SendPropertyChanging();
-			entity._HEZone1 = this;
-		}
-		
-		private void detach__HEZone2(_HEZone entity)
-		{
-			this.SendPropertyChanging();
-			entity._HEZone1 = null;
 		}
 	}
 	
@@ -3393,6 +3283,116 @@ namespace MentorMonitorer
 					this._CropYMax = value;
 					this.SendPropertyChanged("CropYMax");
 					this.OnCropYMaxChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.[_OpposingZones]")]
+	public partial class _OpposingZones : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _TZoneId;
+		
+		private int _CtZoneId;
+		
+		private string _Map;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnTZoneIdChanging(int value);
+    partial void OnTZoneIdChanged();
+    partial void OnCtZoneIdChanging(int value);
+    partial void OnCtZoneIdChanged();
+    partial void OnMapChanging(string value);
+    partial void OnMapChanged();
+    #endregion
+		
+		public _OpposingZones()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TZoneId", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int TZoneId
+		{
+			get
+			{
+				return this._TZoneId;
+			}
+			set
+			{
+				if ((this._TZoneId != value))
+				{
+					this.OnTZoneIdChanging(value);
+					this.SendPropertyChanging();
+					this._TZoneId = value;
+					this.SendPropertyChanged("TZoneId");
+					this.OnTZoneIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CtZoneId", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int CtZoneId
+		{
+			get
+			{
+				return this._CtZoneId;
+			}
+			set
+			{
+				if ((this._CtZoneId != value))
+				{
+					this.OnCtZoneIdChanging(value);
+					this.SendPropertyChanging();
+					this._CtZoneId = value;
+					this.SendPropertyChanged("CtZoneId");
+					this.OnCtZoneIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Map", DbType="NVarChar(MAX)")]
+		public string Map
+		{
+			get
+			{
+				return this._Map;
+			}
+			set
+			{
+				if ((this._Map != value))
+				{
+					this.OnMapChanging(value);
+					this.SendPropertyChanging();
+					this._Map = value;
+					this.SendPropertyChanged("Map");
+					this.OnMapChanged();
 				}
 			}
 		}
@@ -3683,6 +3683,212 @@ namespace MentorMonitorer
 						this._PlayerId = default(long);
 					}
 					this.SendPropertyChanged("PlayerMatchStats");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.[_PolygonPoint]")]
+	public partial class _PolygonPoint : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ZoneId;
+		
+		private int _PointId;
+		
+		private string _Map;
+		
+		private double _XIngame;
+		
+		private double _YIngame;
+		
+		private int _XPixel;
+		
+		private int _YPixel;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnZoneIdChanging(int value);
+    partial void OnZoneIdChanged();
+    partial void OnPointIdChanging(int value);
+    partial void OnPointIdChanged();
+    partial void OnMapChanging(string value);
+    partial void OnMapChanged();
+    partial void OnXIngameChanging(double value);
+    partial void OnXIngameChanged();
+    partial void OnYIngameChanging(double value);
+    partial void OnYIngameChanged();
+    partial void OnXPixelChanging(int value);
+    partial void OnXPixelChanged();
+    partial void OnYPixelChanging(int value);
+    partial void OnYPixelChanged();
+    #endregion
+		
+		public _PolygonPoint()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ZoneId", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int ZoneId
+		{
+			get
+			{
+				return this._ZoneId;
+			}
+			set
+			{
+				if ((this._ZoneId != value))
+				{
+					this.OnZoneIdChanging(value);
+					this.SendPropertyChanging();
+					this._ZoneId = value;
+					this.SendPropertyChanged("ZoneId");
+					this.OnZoneIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PointId", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int PointId
+		{
+			get
+			{
+				return this._PointId;
+			}
+			set
+			{
+				if ((this._PointId != value))
+				{
+					this.OnPointIdChanging(value);
+					this.SendPropertyChanging();
+					this._PointId = value;
+					this.SendPropertyChanged("PointId");
+					this.OnPointIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Map", DbType="NVarChar(MAX)")]
+		public string Map
+		{
+			get
+			{
+				return this._Map;
+			}
+			set
+			{
+				if ((this._Map != value))
+				{
+					this.OnMapChanging(value);
+					this.SendPropertyChanging();
+					this._Map = value;
+					this.SendPropertyChanged("Map");
+					this.OnMapChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_XIngame", DbType="Float NOT NULL")]
+		public double XIngame
+		{
+			get
+			{
+				return this._XIngame;
+			}
+			set
+			{
+				if ((this._XIngame != value))
+				{
+					this.OnXIngameChanging(value);
+					this.SendPropertyChanging();
+					this._XIngame = value;
+					this.SendPropertyChanged("XIngame");
+					this.OnXIngameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_YIngame", DbType="Float NOT NULL")]
+		public double YIngame
+		{
+			get
+			{
+				return this._YIngame;
+			}
+			set
+			{
+				if ((this._YIngame != value))
+				{
+					this.OnYIngameChanging(value);
+					this.SendPropertyChanging();
+					this._YIngame = value;
+					this.SendPropertyChanged("YIngame");
+					this.OnYIngameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_XPixel", DbType="Int NOT NULL")]
+		public int XPixel
+		{
+			get
+			{
+				return this._XPixel;
+			}
+			set
+			{
+				if ((this._XPixel != value))
+				{
+					this.OnXPixelChanging(value);
+					this.SendPropertyChanging();
+					this._XPixel = value;
+					this.SendPropertyChanged("XPixel");
+					this.OnXPixelChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_YPixel", DbType="Int NOT NULL")]
+		public int YPixel
+		{
+			get
+			{
+				return this._YPixel;
+			}
+			set
+			{
+				if ((this._YPixel != value))
+				{
+					this.OnYPixelChanging(value);
+					this.SendPropertyChanging();
+					this._YPixel = value;
+					this.SendPropertyChanged("YPixel");
+					this.OnYPixelChanged();
 				}
 			}
 		}
@@ -4093,13 +4299,11 @@ namespace MentorMonitorer
 		
 		private int _CenterYPixel;
 		
-		private System.Nullable<int> _ParentZoneId;
+		private int _ParentZoneId;
+		
+		private int _ZoneDepth;
 		
 		private EntitySet<_PositionPolygonPoint> @__PositionPolygonPoint;
-		
-		private EntitySet<_PositionZone> @__PositionZone2;
-		
-		private EntityRef<_PositionZone> @__PositionZone1;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -4127,15 +4331,15 @@ namespace MentorMonitorer
     partial void OnCenterXPixelChanged();
     partial void OnCenterYPixelChanging(int value);
     partial void OnCenterYPixelChanged();
-    partial void OnParentZoneIdChanging(System.Nullable<int> value);
+    partial void OnParentZoneIdChanging(int value);
     partial void OnParentZoneIdChanged();
+    partial void OnZoneDepthChanging(int value);
+    partial void OnZoneDepthChanged();
     #endregion
 		
 		public _PositionZone()
 		{
 			this.@__PositionPolygonPoint = new EntitySet<_PositionPolygonPoint>(new Action<_PositionPolygonPoint>(this.attach__PositionPolygonPoint), new Action<_PositionPolygonPoint>(this.detach__PositionPolygonPoint));
-			this.@__PositionZone2 = new EntitySet<_PositionZone>(new Action<_PositionZone>(this.attach__PositionZone2), new Action<_PositionZone>(this.detach__PositionZone2));
-			this.@__PositionZone1 = default(EntityRef<_PositionZone>);
 			OnCreated();
 		}
 		
@@ -4359,8 +4563,8 @@ namespace MentorMonitorer
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParentZoneId", DbType="Int")]
-		public System.Nullable<int> ParentZoneId
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParentZoneId", DbType="Int NOT NULL")]
+		public int ParentZoneId
 		{
 			get
 			{
@@ -4370,15 +4574,31 @@ namespace MentorMonitorer
 			{
 				if ((this._ParentZoneId != value))
 				{
-					if (this.@__PositionZone1.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
 					this.OnParentZoneIdChanging(value);
 					this.SendPropertyChanging();
 					this._ParentZoneId = value;
 					this.SendPropertyChanged("ParentZoneId");
 					this.OnParentZoneIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ZoneDepth", DbType="Int NOT NULL")]
+		public int ZoneDepth
+		{
+			get
+			{
+				return this._ZoneDepth;
+			}
+			set
+			{
+				if ((this._ZoneDepth != value))
+				{
+					this.OnZoneDepthChanging(value);
+					this.SendPropertyChanging();
+					this._ZoneDepth = value;
+					this.SendPropertyChanged("ZoneDepth");
+					this.OnZoneDepthChanged();
 				}
 			}
 		}
@@ -4393,53 +4613,6 @@ namespace MentorMonitorer
 			set
 			{
 				this.@__PositionPolygonPoint.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="_PositionZone__PositionZone", Storage="__PositionZone2", ThisKey="ZoneId", OtherKey="ParentZoneId")]
-		public EntitySet<_PositionZone> _PositionZone2
-		{
-			get
-			{
-				return this.@__PositionZone2;
-			}
-			set
-			{
-				this.@__PositionZone2.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="_PositionZone__PositionZone", Storage="__PositionZone1", ThisKey="ParentZoneId", OtherKey="ZoneId", IsForeignKey=true)]
-		public _PositionZone _PositionZone1
-		{
-			get
-			{
-				return this.@__PositionZone1.Entity;
-			}
-			set
-			{
-				_PositionZone previousValue = this.@__PositionZone1.Entity;
-				if (((previousValue != value) 
-							|| (this.@__PositionZone1.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this.@__PositionZone1.Entity = null;
-						previousValue._PositionZone2.Remove(this);
-					}
-					this.@__PositionZone1.Entity = value;
-					if ((value != null))
-					{
-						value._PositionZone2.Add(this);
-						this._ParentZoneId = value.ZoneId;
-					}
-					else
-					{
-						this._ParentZoneId = default(Nullable<int>);
-					}
-					this.SendPropertyChanged("_PositionZone1");
-				}
 			}
 		}
 		
@@ -4473,18 +4646,6 @@ namespace MentorMonitorer
 		{
 			this.SendPropertyChanging();
 			entity._PositionZone = null;
-		}
-		
-		private void attach__PositionZone2(_PositionZone entity)
-		{
-			this.SendPropertyChanging();
-			entity._PositionZone1 = this;
-		}
-		
-		private void detach__PositionZone2(_PositionZone entity)
-		{
-			this.SendPropertyChanging();
-			entity._PositionZone1 = null;
 		}
 	}
 	
@@ -6500,6 +6661,284 @@ namespace MentorMonitorer
 					this._SuperOrdinateId = value;
 					this.SendPropertyChanged("SuperOrdinateId");
 					this.OnSuperOrdinateIdChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.[_Zone]")]
+	public partial class _Zone : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ZoneId;
+		
+		private string _Map;
+		
+		private string _Name;
+		
+		private string _VideoUrl;
+		
+		private System.Nullable<double> _ZMin;
+		
+		private System.Nullable<double> _ZMax;
+		
+		private double _CenterXIngame;
+		
+		private double _CenterYIngame;
+		
+		private int _CenterXPixel;
+		
+		private int _CenterYPixel;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnZoneIdChanging(int value);
+    partial void OnZoneIdChanged();
+    partial void OnMapChanging(string value);
+    partial void OnMapChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnVideoUrlChanging(string value);
+    partial void OnVideoUrlChanged();
+    partial void OnZMinChanging(System.Nullable<double> value);
+    partial void OnZMinChanged();
+    partial void OnZMaxChanging(System.Nullable<double> value);
+    partial void OnZMaxChanged();
+    partial void OnCenterXIngameChanging(double value);
+    partial void OnCenterXIngameChanged();
+    partial void OnCenterYIngameChanging(double value);
+    partial void OnCenterYIngameChanged();
+    partial void OnCenterXPixelChanging(int value);
+    partial void OnCenterXPixelChanged();
+    partial void OnCenterYPixelChanging(int value);
+    partial void OnCenterYPixelChanged();
+    #endregion
+		
+		public _Zone()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ZoneId", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int ZoneId
+		{
+			get
+			{
+				return this._ZoneId;
+			}
+			set
+			{
+				if ((this._ZoneId != value))
+				{
+					this.OnZoneIdChanging(value);
+					this.SendPropertyChanging();
+					this._ZoneId = value;
+					this.SendPropertyChanged("ZoneId");
+					this.OnZoneIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Map", DbType="NVarChar(MAX)")]
+		public string Map
+		{
+			get
+			{
+				return this._Map;
+			}
+			set
+			{
+				if ((this._Map != value))
+				{
+					this.OnMapChanging(value);
+					this.SendPropertyChanging();
+					this._Map = value;
+					this.SendPropertyChanged("Map");
+					this.OnMapChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(MAX)")]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_VideoUrl", DbType="NVarChar(MAX)")]
+		public string VideoUrl
+		{
+			get
+			{
+				return this._VideoUrl;
+			}
+			set
+			{
+				if ((this._VideoUrl != value))
+				{
+					this.OnVideoUrlChanging(value);
+					this.SendPropertyChanging();
+					this._VideoUrl = value;
+					this.SendPropertyChanged("VideoUrl");
+					this.OnVideoUrlChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ZMin", DbType="Float")]
+		public System.Nullable<double> ZMin
+		{
+			get
+			{
+				return this._ZMin;
+			}
+			set
+			{
+				if ((this._ZMin != value))
+				{
+					this.OnZMinChanging(value);
+					this.SendPropertyChanging();
+					this._ZMin = value;
+					this.SendPropertyChanged("ZMin");
+					this.OnZMinChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ZMax", DbType="Float")]
+		public System.Nullable<double> ZMax
+		{
+			get
+			{
+				return this._ZMax;
+			}
+			set
+			{
+				if ((this._ZMax != value))
+				{
+					this.OnZMaxChanging(value);
+					this.SendPropertyChanging();
+					this._ZMax = value;
+					this.SendPropertyChanged("ZMax");
+					this.OnZMaxChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CenterXIngame", DbType="Float NOT NULL")]
+		public double CenterXIngame
+		{
+			get
+			{
+				return this._CenterXIngame;
+			}
+			set
+			{
+				if ((this._CenterXIngame != value))
+				{
+					this.OnCenterXIngameChanging(value);
+					this.SendPropertyChanging();
+					this._CenterXIngame = value;
+					this.SendPropertyChanged("CenterXIngame");
+					this.OnCenterXIngameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CenterYIngame", DbType="Float NOT NULL")]
+		public double CenterYIngame
+		{
+			get
+			{
+				return this._CenterYIngame;
+			}
+			set
+			{
+				if ((this._CenterYIngame != value))
+				{
+					this.OnCenterYIngameChanging(value);
+					this.SendPropertyChanging();
+					this._CenterYIngame = value;
+					this.SendPropertyChanged("CenterYIngame");
+					this.OnCenterYIngameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CenterXPixel", DbType="Int NOT NULL")]
+		public int CenterXPixel
+		{
+			get
+			{
+				return this._CenterXPixel;
+			}
+			set
+			{
+				if ((this._CenterXPixel != value))
+				{
+					this.OnCenterXPixelChanging(value);
+					this.SendPropertyChanging();
+					this._CenterXPixel = value;
+					this.SendPropertyChanged("CenterXPixel");
+					this.OnCenterXPixelChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CenterYPixel", DbType="Int NOT NULL")]
+		public int CenterYPixel
+		{
+			get
+			{
+				return this._CenterYPixel;
+			}
+			set
+			{
+				if ((this._CenterYPixel != value))
+				{
+					this.OnCenterYPixelChanging(value);
+					this.SendPropertyChanging();
+					this._CenterYPixel = value;
+					this.SendPropertyChanged("CenterYPixel");
+					this.OnCenterYPixelChanged();
 				}
 			}
 		}
@@ -9978,6 +10417,12 @@ namespace MentorMonitorer
 		
 		private string _FaceItMatchId;
 		
+		private long _UploadedBy;
+		
+		private short _UploadType;
+		
+		private string _Source;
+		
 		private EntitySet<MatchStats> _MatchStats;
 		
     #region Extensibility Method Definitions
@@ -10008,6 +10453,12 @@ namespace MentorMonitorer
     partial void OnPyAnalyzerVersionChanged();
     partial void OnFaceItMatchIdChanging(string value);
     partial void OnFaceItMatchIdChanged();
+    partial void OnUploadedByChanging(long value);
+    partial void OnUploadedByChanged();
+    partial void OnUploadTypeChanging(short value);
+    partial void OnUploadTypeChanged();
+    partial void OnSourceChanging(string value);
+    partial void OnSourceChanged();
     #endregion
 		
 		public DemoStats()
@@ -10252,6 +10703,66 @@ namespace MentorMonitorer
 					this._FaceItMatchId = value;
 					this.SendPropertyChanged("FaceItMatchId");
 					this.OnFaceItMatchIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UploadedBy", DbType="BigInt NOT NULL")]
+		public long UploadedBy
+		{
+			get
+			{
+				return this._UploadedBy;
+			}
+			set
+			{
+				if ((this._UploadedBy != value))
+				{
+					this.OnUploadedByChanging(value);
+					this.SendPropertyChanging();
+					this._UploadedBy = value;
+					this.SendPropertyChanged("UploadedBy");
+					this.OnUploadedByChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UploadType", DbType="SmallInt NOT NULL")]
+		public short UploadType
+		{
+			get
+			{
+				return this._UploadType;
+			}
+			set
+			{
+				if ((this._UploadType != value))
+				{
+					this.OnUploadTypeChanging(value);
+					this.SendPropertyChanging();
+					this._UploadType = value;
+					this.SendPropertyChanged("UploadType");
+					this.OnUploadTypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Source", DbType="NVarChar(MAX)")]
+		public string Source
+		{
+			get
+			{
+				return this._Source;
+			}
+			set
+			{
+				if ((this._Source != value))
+				{
+					this.OnSourceChanging(value);
+					this.SendPropertyChanging();
+					this._Source = value;
+					this.SendPropertyChanged("Source");
+					this.OnSourceChanged();
 				}
 			}
 		}
@@ -13017,123 +13528,6 @@ namespace MentorMonitorer
 		{
 			this.SendPropertyChanging();
 			entity.Flash = null;
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.FlashBounce")]
-	public partial class FlashBounce
-	{
-		
-		private long _MatchId;
-		
-		private long _GrenadeId;
-		
-		private int _Time;
-		
-		private double _GrenadePosX;
-		
-		private double _GrenadePosY;
-		
-		private double _GrenadePosZ;
-		
-		public FlashBounce()
-		{
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MatchId", DbType="BigInt NOT NULL")]
-		public long MatchId
-		{
-			get
-			{
-				return this._MatchId;
-			}
-			set
-			{
-				if ((this._MatchId != value))
-				{
-					this._MatchId = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GrenadeId", DbType="BigInt NOT NULL")]
-		public long GrenadeId
-		{
-			get
-			{
-				return this._GrenadeId;
-			}
-			set
-			{
-				if ((this._GrenadeId != value))
-				{
-					this._GrenadeId = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Time", DbType="Int NOT NULL")]
-		public int Time
-		{
-			get
-			{
-				return this._Time;
-			}
-			set
-			{
-				if ((this._Time != value))
-				{
-					this._Time = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GrenadePosX", DbType="Float NOT NULL")]
-		public double GrenadePosX
-		{
-			get
-			{
-				return this._GrenadePosX;
-			}
-			set
-			{
-				if ((this._GrenadePosX != value))
-				{
-					this._GrenadePosX = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GrenadePosY", DbType="Float NOT NULL")]
-		public double GrenadePosY
-		{
-			get
-			{
-				return this._GrenadePosY;
-			}
-			set
-			{
-				if ((this._GrenadePosY != value))
-				{
-					this._GrenadePosY = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GrenadePosZ", DbType="Float NOT NULL")]
-		public double GrenadePosZ
-		{
-			get
-			{
-				return this._GrenadePosZ;
-			}
-			set
-			{
-				if ((this._GrenadePosZ != value))
-				{
-					this._GrenadePosZ = value;
-				}
-			}
 		}
 	}
 	
@@ -18394,8 +18788,6 @@ namespace MentorMonitorer
 		
 		private short _SourceTickRate;
 		
-		private string _Event;
-		
 		private string _Source;
 		
 		private byte _GameType;
@@ -18405,6 +18797,8 @@ namespace MentorMonitorer
 		private short _RealScore1;
 		
 		private short _RealScore2;
+		
+		private string _Event;
 		
 		private EntitySet<WeaponReload> _WeaponReload;
 		
@@ -18526,8 +18920,6 @@ namespace MentorMonitorer
     partial void OnDemoTickRateChanged();
     partial void OnSourceTickRateChanging(short value);
     partial void OnSourceTickRateChanged();
-    partial void OnEventChanging(string value);
-    partial void OnEventChanged();
     partial void OnSourceChanging(string value);
     partial void OnSourceChanged();
     partial void OnGameTypeChanging(byte value);
@@ -18538,6 +18930,8 @@ namespace MentorMonitorer
     partial void OnRealScore1Changed();
     partial void OnRealScore2Changing(short value);
     partial void OnRealScore2Changed();
+    partial void OnEventChanging(string value);
+    partial void OnEventChanged();
     #endregion
 		
 		public MatchStats()
@@ -19120,26 +19514,6 @@ namespace MentorMonitorer
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Event", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
-		public string Event
-		{
-			get
-			{
-				return this._Event;
-			}
-			set
-			{
-				if ((this._Event != value))
-				{
-					this.OnEventChanging(value);
-					this.SendPropertyChanging();
-					this._Event = value;
-					this.SendPropertyChanged("Event");
-					this.OnEventChanged();
-				}
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Source", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
 		public string Source
 		{
@@ -19236,6 +19610,26 @@ namespace MentorMonitorer
 					this._RealScore2 = value;
 					this.SendPropertyChanged("RealScore2");
 					this.OnRealScore2Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Event", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
+		public string Event
+		{
+			get
+			{
+				return this._Event;
+			}
+			set
+			{
+				if ((this._Event != value))
+				{
+					this.OnEventChanging(value);
+					this.SendPropertyChanging();
+					this._Event = value;
+					this.SendPropertyChanged("Event");
+					this.OnEventChanged();
 				}
 			}
 		}

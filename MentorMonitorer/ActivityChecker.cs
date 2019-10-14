@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,7 +29,7 @@ namespace MentorMonitorer
                 = new DemoAnalyzerDataClassesDataContext())
             {               
                 return dbContext.DemoStats
-                    .Where(x=>(x.MatchStats.Select(y=>y.Source).SingleOrDefault() ?? "") == "Valve")
+                    .Where(x=> x.Source == "Valve")
                     .Select(x => x.MatchDate)
                     .OrderByDescending(x => x)
                     .FirstOrDefault();
@@ -137,6 +138,11 @@ namespace MentorMonitorer
                     .Where(x => x.Status == (short)DemoStatus.DemoAnalyzerFinished)
                     .Count();
             }
+        }
+
+        public static bool ProcessIsRunning(string processName)
+        {
+            return Process.GetProcesses().Any(x => x.ProcessName == processName);
         }
 
     }
