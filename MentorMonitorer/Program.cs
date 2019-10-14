@@ -40,6 +40,14 @@ namespace MentorMonitorer
                     warningMsg += "There are " + matchesWaitingForDemoDownloader + " waiting to be analyzed by DemoDownloader.\n";
                 }
 
+                // DemoDownloader Functionality
+                var demoDownloaderFailQuota = ActivityChecker.DemoDownloaderFailQuota(50);
+                if (demoDownloaderFailQuota > 0.3)
+                {
+                    sendWarning = true;
+                    warningMsg += "Of the last " + 20 + " matches, DemoDownloader failed " + demoDownloaderFailQuota * 100 + "%.\n";
+                }
+
 
                 // FaceitMatchGatherer 
                 // FaceitMatchGatherer Activity
@@ -69,11 +77,11 @@ namespace MentorMonitorer
                 }
 
                 // DemoAnalyzer Functionality
-                var demoDownloaderOrAnalyzerFailQuota = ActivityChecker.DemoDownloaderOrAnalyzerFailQuota(20);
-                if (demoDownloaderOrAnalyzerFailQuota > 0.2)
+                var demoAnalyzerFailQuota = ActivityChecker.DemoAnalyzerFailQuota(20);
+                if (demoAnalyzerFailQuota > 0.2)
                 {
                     sendWarning = true;
-                    warningMsg += "Of the last " + 20 + " matches, DemoAnalyzer or DemoDownloader failed " + demoDownloaderOrAnalyzerFailQuota * 100 + "%.\n";
+                    warningMsg += "Of the last " + 20 + " matches, DemoAnalyzer failed " + demoAnalyzerFailQuota * 100 + "%.\n";
                 }
 
 

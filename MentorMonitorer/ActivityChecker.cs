@@ -14,9 +14,11 @@ namespace MentorMonitorer
             //DOWNLOADED = 1,
             DownloadFinished = 2,
             DemoAnalyzerFinished = 3,
-            DemoDownloaderOrAnalyzerFailed = 4,
+            DemoAnalyzerFailed = 4,
             PyAnalyzerFinished = 5,
             PyAnalyzerFailed = 6,
+
+            DownloadFailed = 41,
         }
 
 
@@ -59,7 +61,7 @@ namespace MentorMonitorer
             }
         }
 
-        public static float DemoDownloaderOrAnalyzerFailQuota(int recentMatches)
+        public static float DemoAnalyzerFailQuota(int recentMatches)
         {
             using (DemoAnalyzerDataClassesDataContext dbContext
                 = new DemoAnalyzerDataClassesDataContext())
@@ -70,7 +72,22 @@ namespace MentorMonitorer
                     .Take(recentMatches)
                     .ToList();
 
-                return statusList.Count(x => x == (short) DemoStatus.DemoDownloaderOrAnalyzerFailed) / statusList.Count;
+                return statusList.Count(x => x == (short) DemoStatus.DemoAnalyzerFailed) / statusList.Count;
+            }
+        }
+
+        public static float DemoDownloaderFailQuota(int recentMatches)
+        {
+            using (DemoAnalyzerDataClassesDataContext dbContext
+                = new DemoAnalyzerDataClassesDataContext())
+            {
+                var statusList = dbContext.DemoStats
+                    .OrderByDescending(x => x.MatchDate)
+                    .Select(x => x.Status)
+                    .Take(recentMatches)
+                    .ToList();
+
+                return statusList.Count(x => x == (short)DemoStatus.DownloadFailed) / statusList.Count;
             }
         }
 
@@ -95,7 +112,7 @@ namespace MentorMonitorer
                 = new DemoAnalyzerDataClassesDataContext())
             {
                 return dbContext.DemoStats
-                    .Where(x => x.Status == 1)
+                    .Where(x => x.Status == (short) DemoStatus.NEW)
                     .Count();
             }
         }
@@ -106,7 +123,7 @@ namespace MentorMonitorer
                 = new DemoAnalyzerDataClassesDataContext())
             {
                 return dbContext.DemoStats
-                    .Where(x => x.Status == 2)
+                    .Where(x => x.Status == (short)DemoStatus.DownloadFinished)
                     .Count();
             }
         }
@@ -117,7 +134,7 @@ namespace MentorMonitorer
                 = new DemoAnalyzerDataClassesDataContext())
             {
                 return dbContext.DemoStats
-                    .Where(x => x.Status == 3)
+                    .Where(x => x.Status == (short)DemoStatus.DemoAnalyzerFinished)
                     .Count();
             }
         }
