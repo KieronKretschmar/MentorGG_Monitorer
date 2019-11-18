@@ -22,6 +22,15 @@ namespace MentorMonitorer
 
                 var processRunningReport = CheckProcessesAreRunning(ProcessesToCheck);
 
+                // DemoDownloader
+                // DemoDownloader Activity
+                var matchesWaitingForDemoDownloader = ActivityChecker.MatchesWaitingForDemoDownloader();
+                if (matchesWaitingForDemoDownloader > 30)
+                {
+                    processRunningReport.SendReport = true;
+                    processRunningReport.Message += "There are " + matchesWaitingForDemoDownloader + " waiting to be downloaded by DemoDownloader.\n";
+                }
+
                 if (processRunningReport.SendReport)
                 {
                     Log.WriteLine("At least one process is not running. Sending report via whatsapp.");
@@ -32,7 +41,6 @@ namespace MentorMonitorer
                 else
                 {
                     Log.WriteLine("All Processes are running.");
-
                 }
 
 
@@ -49,12 +57,30 @@ namespace MentorMonitorer
                     Log.WriteLine("All Activity checks passed.");
                 }
 
+
+                // Restart idle processes
+                if (ActivityChecker.MatchesWaitingForDemoDownloader() > 25 || !ProcessHelper.ProcessIsRunning("DemoDownloaderUnzipper"))
+                {
+                    Log.WriteLine("Restarting DemoDownloaderUnzupper");
+                    ProcessHelper.RestartProcess("DemoDownloaderUnzipper", @"C:\Users\root\Desktop\Mentor\DownloaderUnzipper\DemoDownloaderUnzipper.exe");
+                    //ProcessHelper.RestartProcess("DemoDownloaderUnzipper", @"C:\Development\mentorsoftware\DemoDownloaderUnzipper\bin\Release\DemoDownloaderUnzipper.exe");
+                }
+
+                var LastNewSharingCodeDemo = ActivityChecker.LastNewSharingCodeDemo();
+                if (DateTime.Now - LastNewSharingCodeDemo > TimeSpan.FromHours(1) || !ProcessHelper.ProcessIsRunning("SteamworksConnection"))
+                {
+                    Log.WriteLine("Restarting SteamworksConnection");
+                    ProcessHelper.RestartProcess("SteamworksConnection", @"C:\Users\root\Desktop\Mentor\SteamWorksConnection\SteamworksConnection.exe");
+                    //ProcessHelper.RestartProcess("SteamworksConnection", @"C:\Development\SharingCodeProjects\SteamWorksConnection\SteamworksConnection.exe");
+                }
+
                 // Sleep 15 minutes
                 Log.WriteLine("Sleeping for 10 minutes.");
                 Thread.Sleep(10 * 60 * 1000);
             }
 
         }
+
 
         public static Report CheckActivity()
         {
@@ -79,7 +105,7 @@ namespace MentorMonitorer
             if (matchesWaitingForDemoDownloader > 5)
             {
                 sendReport = true;
-                message += "There are " + matchesWaitingForDemoDownloader + " waiting to be analyzed by DemoDownloader.\n";
+                message += "There are " + matchesWaitingForDemoDownloader + " waiting to be downloaded by DemoDownloader.\n";
             }
 
 
@@ -152,7 +178,7 @@ namespace MentorMonitorer
 
             foreach (var processName in processesToCheck)
             {
-                if (!ActivityChecker.ProcessIsRunning(processName))
+                if (!ProcessHelper.ProcessIsRunning(processName))
                 {
                     sendReport = true;
                     message += processName + " is not Running.\n";

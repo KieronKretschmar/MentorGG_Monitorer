@@ -34,6 +34,20 @@ namespace MentorMonitorer
             }
         }
 
+
+        public static DateTime LastNewSharingCodeDemo()
+        {
+            using (DemoAnalyzerDataClassesDataContext dbContext
+                = new DemoAnalyzerDataClassesDataContext())
+            {
+                return dbContext.DemoStats
+                    .Where(x => x.UploadType == 7)
+                    .Select(x => x.MatchDate)
+                    .OrderByDescending(x => x)
+                    .FirstOrDefault();
+            }
+        }
+
         public static DateTime LastNewFaceitDemo()
         {
             using (DemoAnalyzerDataClassesDataContext dbContext
@@ -123,10 +137,6 @@ namespace MentorMonitorer
             }
         }
 
-        public static bool ProcessIsRunning(string processName)
-        {
-            return Process.GetProcesses().Any(x => x.ProcessName == processName);
-        }
 
     }
 }
