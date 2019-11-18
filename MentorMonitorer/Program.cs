@@ -15,7 +15,14 @@ namespace MentorMonitorer
         static void Main(string[] args)
         {
             
-            List<string> ProcessesToCheck = new List<string>() { "DemoAnalyzer", "DemoDownloaderUnzipper", "python", "SteamInfoGatherer", "FaceItMatchGatherer" };
+            List<string> ProcessesToCheck = new List<string>() {
+                "DemoAnalyzer",
+                "DemoDownloaderUnzipper",
+                "python",
+                "SteamInfoGatherer",
+                "FaceItMatchGatherer",
+                "SteamworksConnection"
+            };
 
             while (true)
             {
@@ -108,6 +115,14 @@ namespace MentorMonitorer
                 message += "There are " + matchesWaitingForDemoDownloader + " waiting to be downloaded by DemoDownloader.\n";
             }
 
+            // DemoDownloader Functionality
+            var demoDownloaderFailQuota = ActivityChecker.DemoDownloaderFailQuota(20);
+            if (demoDownloaderFailQuota > 0.3)
+            {
+                sendReport = true;
+                message += "Of the last " + 20 + " matches, DemoAnalyzer or DemoDownloader failed " + demoDownloaderFailQuota * 100 + "%.\n";
+            }
+
 
             // FaceitMatchGatherer 
             // FaceitMatchGatherer Activity
@@ -134,14 +149,6 @@ namespace MentorMonitorer
             {
                 sendReport = true;
                 message += "There are " + matchesWaitingForDemoAnalyzer + " waiting to be analyzed by DemoAnalyzer.\n";
-            }
-
-            // DemoAnalyzer Functionality
-            var demoDownloaderOrAnalyzerFailQuota = ActivityChecker.DemoDownloaderOrAnalyzerFailQuota(20);
-            if (demoDownloaderOrAnalyzerFailQuota > 0.2)
-            {
-                sendReport = true;
-                message += "Of the last " + 20 + " matches, DemoAnalyzer or DemoDownloader failed " + demoDownloaderOrAnalyzerFailQuota * 100 + "%.\n";
             }
 
 
