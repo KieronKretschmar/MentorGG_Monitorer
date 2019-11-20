@@ -66,6 +66,7 @@ namespace MentorMonitorer
 
 
                 // Restart idle processes
+                Log.WriteLine($"MatchesWaitingForDemoDownloader: {ActivityChecker.MatchesWaitingForDemoDownloader()}");
                 if (ActivityChecker.MatchesWaitingForDemoDownloader() > 25 || !ProcessHelper.ProcessIsRunning("DemoDownloaderUnzipper"))
                 {
                     Log.WriteLine("Restarting DemoDownloaderUnzupper");
@@ -74,6 +75,7 @@ namespace MentorMonitorer
                 }
 
                 var LastNewSharingCodeDemo = ActivityChecker.LastNewSharingCodeDemo();
+                Log.WriteLine($"Time since LastNewSharingCodeDemo: {DateTime.Now - LastNewSharingCodeDemo}");
                 if (DateTime.Now - LastNewSharingCodeDemo > TimeSpan.FromHours(1) || !ProcessHelper.ProcessIsRunning("SteamworksConnection"))
                 {
                     Log.WriteLine("Restarting SteamworksConnection");
@@ -139,6 +141,17 @@ namespace MentorMonitorer
             {
                 sendReport = true;
                 message += "There has not been a single new faceit match in the database since " + LastNewFaceitDemo.ToString() + ".\n";
+            }
+
+
+
+            // SharingCode
+            // SCGatherer + SCOperator Activity
+            var LastNewSharingCodeDemo = ActivityChecker.LastNewSharingCodeDemo();
+            if (DateTime.Now - LastNewSharingCodeDemo > TimeSpan.FromHours(5))
+            {
+                sendReport = true;
+                message += $"Time since LastNewSharingCodeDemo: {DateTime.Now - LastNewSharingCodeDemo}.\n";
             }
 
 
